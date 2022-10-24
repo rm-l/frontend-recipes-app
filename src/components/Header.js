@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
@@ -46,11 +46,13 @@ function Header() {
       <h1 data-testid="page-title">{ pageName }</h1>
       {
         (isPerfilIcon) && (
-          <button
-            type="button"
-          >
-            <img src={ profileIcon } alt="profile" data-testid="profile-top-btn" />
-          </button>
+          <Link to="/profile">
+            <button
+              type="button"
+            >
+              <img src={ profileIcon } alt="profile" data-testid="profile-top-btn" />
+            </button>
+          </Link>
         )
       }
       {
