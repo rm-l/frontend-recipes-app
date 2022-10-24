@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 
 function Login() {
@@ -44,14 +45,16 @@ function Login() {
         data-testid="password-input"
         onChange={ handleChangePassword }
       />
-      <button
-        type="button"
-        data-testid="login-submit-btn"
-        onClick={ handleClick }
-        disabled={ isDisabled }
-      >
-        Enviar
-      </button>
+      <Link to="/meals">
+        <button
+          type="button"
+          data-testid="login-submit-btn"
+          onClick={ handleClick }
+          disabled={ isDisabled }
+        >
+          Enviar
+        </button>
+      </Link>
     </div>
   );
 }
