@@ -1,11 +1,20 @@
 import PropTypes from 'prop-types';
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import AppContext from './AppContext';
 
 function Provider({ children }) {
-  const contextValue = useMemo(() => ({
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isDisabled, setIsDisabled] = useState(true);
 
-  }), []);
+  const contextValue = useMemo(() => ({
+    email,
+    setEmail,
+    password,
+    setPassword,
+    isDisabled,
+    setIsDisabled,
+  }), [email, password, isDisabled]);
 
   return (
     <AppContext.Provider value={ contextValue }>
