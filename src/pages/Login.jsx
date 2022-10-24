@@ -22,7 +22,7 @@ function Login() {
     const minValue = 7;
     const verifyPass = password.length >= minValue;
     setIsDisabled(!(verifyEmail && verifyPass));
-  }, [email, password]);
+  }, [email, password, setIsDisabled]);
 
   const handleClick = () => {
     const obj = { email };

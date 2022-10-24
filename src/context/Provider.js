@@ -6,6 +6,10 @@ function Provider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDisabled, setIsDisabled] = useState(true);
+  const [path, setPath] = useState('');
+  const [pageName, setPageName] = useState('');
+  const [isPerfilIcon, setIsPerfilIcon] = useState(true);
+  const [isSearchIcon, setIsSearchIcon] = useState(true);
 
   const contextValue = useMemo(() => ({
     email,
@@ -14,7 +18,15 @@ function Provider({ children }) {
     setPassword,
     isDisabled,
     setIsDisabled,
-  }), [email, password, isDisabled]);
+    path,
+    setPath,
+    pageName,
+    setPageName,
+    isPerfilIcon,
+    setIsPerfilIcon,
+    isSearchIcon,
+    setIsSearchIcon,
+  }), [email, password, isDisabled, path, pageName, isPerfilIcon, isSearchIcon]);
 
   return (
     <AppContext.Provider value={ contextValue }>
