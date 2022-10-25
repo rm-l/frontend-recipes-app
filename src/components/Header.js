@@ -3,6 +3,7 @@ import { useLocation, Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header() {
   const { path, setPath, pageName, setPageName, isPerfilIcon, isSearchPressed,
@@ -65,13 +66,7 @@ function Header() {
           <>
             {
               (isSearchPressed) && (
-                <input
-                  type="text"
-                  name="search-input"
-                  id="search-input"
-                  data-testid="search-input"
-                  // onChange={}
-                />
+                <SearchBar />
               )
             }
             <button
