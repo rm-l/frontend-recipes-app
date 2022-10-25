@@ -3,8 +3,9 @@ import { useHistory, useLocation } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 
 function SearchBar() {
-  const { radioSearch, setRadioSearch, inputSearch, /* drinksList, */ setDrinksList,
-    setInputSearch, /* mealsList, */ setMealsList } = useContext(AppContext);
+  const { radioSearch, setRadioSearch, inputSearch, drinksList, setDrinksList,
+    setInputSearch, mealsList, setMealsList, isMultipleMeals, setIsMultipleMeals,
+    isMultipleDrinks, setIsMultipleDrinks } = useContext(AppContext);
 
   const { pathname } = useLocation();
   const history = useHistory();
@@ -20,17 +21,26 @@ function SearchBar() {
   };
 
   const fetchApi = async (endPoint) => {
+    const TWELVE = 12;
     if (pathname === '/meals') {
       const { meals } = await fetch(endPoint).then((response) => response.json());
-      setMealsList(meals);
       if (meals.length === 1) {
         history.push(`/meals/${meals[0].idMeal}`);
+        setMealsList(meals);
+      } else {
+        const filteredMeals = meals.filter((item, index) => index < TWELVE);
+        setMealsList(filteredMeals);
+        setIsMultipleMeals(true);
       }
     } else if (pathname === '/drinks') {
       const { drinks } = await fetch(endPoint).then((response) => response.json());
-      setDrinksList(drinks);
       if (drinks.length === 1) {
         history.push(`/drinks/${drinks[0].idDrink}`);
+        setDrinksList(drinks);
+      } else {
+        const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
+        setDrinksList(filteredDrinks);
+        setIsMultipleDrinks(true);
       }
     }
   };
@@ -80,49 +90,81 @@ function SearchBar() {
 
   return (
     <div>
-      <label htmlFor="ingredient-search-radio">
-        Ingredient
+      <div>
+        <label htmlFor="ingredient-search-radio">
+          Ingredient
+          <input
+            type="radio"
+            name="search-radio"
+            id="ingredient-search-radio"
+            value="ingredient"
+            data-testid="ingredient-search-radio"
+            onChange={ handleRadio }
+          />
+        </label>
+        <label htmlFor="name-search-radio">
+          Name
+          <input
+            type="radio"
+            name="search-radio"
+            id="name-search-radio"
+            value="name"
+            data-testid="name-search-radio"
+            onChange={ handleRadio }
+          />
+        </label>
+        <label htmlFor="first-letter-search-radio">
+          First letter
+          <input
+            type="radio"
+            name="search-radio"
+            id="first-letter-search-radio"
+            value="first"
+            data-testid="first-letter-search-radio"
+            onChange={ handleRadio }
+          />
+        </label>
         <input
-          type="radio"
-          name="search-radio"
-          id="ingredient-search-radio"
-          value="ingredient"
-          data-testid="ingredient-search-radio"
-          onChange={ handleRadio }
+          type="text"
+          name="search-input"
+          id="search-input"
+          data-testid="search-input"
+          onChange={ handleChangeInput }
         />
-      </label>
-      <label htmlFor="name-search-radio">
-        Name
-        <input
-          type="radio"
-          name="search-radio"
-          id="name-search-radio"
-          value="name"
-          data-testid="name-search-radio"
-          onChange={ handleRadio }
-        />
-      </label>
-      <label htmlFor="first-letter-search-radio">
-        First letter
-        <input
-          type="radio"
-          name="search-radio"
-          id="first-letter-search-radio"
-          value="first"
-          data-testid="first-letter-search-radio"
-          onChange={ handleRadio }
-        />
-      </label>
-      <input
-        type="text"
-        name="search-input"
-        id="search-input"
-        data-testid="search-input"
-        onChange={ handleChangeInput }
-      />
-      <button type="button" data-testid="exec-search-btn" onClick={ handleClickSearch }>
-        Search
-      </button>
+        <button type="button" data-testid="exec-search-btn" onClick={ handleClickSearch }>
+          Search
+        </button>
+      </div>
+      <div>
+        {
+          (isMultipleMeals) && (
+            mealsList.map((meal, index) => (
+              <div key={ meal.strMeal } data-testid={ `${index}-recipe-card` }>
+                <p data-testid={ `${index}-card-name` }>{meal.strMeal}</p>
+                <img
+                  src={ meal.strMealThumb }
+                  alt={ meal.strMeal }
+                  data-testid={ `${index}-card-img` }
+                />
+              </div>
+            ))
+          )
+        }
+        {
+          (isMultipleDrinks) && (
+            drinksList.map((drink, index) => (
+              <div key={ drink.strDrink } data-testid={ `${index}-recipe-card` }>
+                <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
+                <img
+                  src={ drink.strDrinkThumb }
+                  alt={ drink.strDrink }
+                  data-testid={ `${index}-card-img` }
+                />
+              </div>
+            ))
+          )
+        }
+      </div>
     </div>
   );
 }
