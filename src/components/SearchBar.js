@@ -27,20 +27,24 @@ function SearchBar() {
       if (meals.length === 1) {
         history.push(`/meals/${meals[0].idMeal}`);
         setMealsList(meals);
-      } else {
+      } else if (meals.length > 1) {
         const filteredMeals = meals.filter((item, index) => index < TWELVE);
         setMealsList(filteredMeals);
         setIsMultipleMeals(true);
+      } else {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
     } else if (pathname === '/drinks') {
       const { drinks } = await fetch(endPoint).then((response) => response.json());
       if (drinks.length === 1) {
         history.push(`/drinks/${drinks[0].idDrink}`);
         setDrinksList(drinks);
-      } else {
+      } else if (drinks.length > 1) {
         const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
         setDrinksList(filteredDrinks);
         setIsMultipleDrinks(true);
+      } else {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
     }
   };

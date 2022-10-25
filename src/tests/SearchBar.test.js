@@ -3,6 +3,7 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
+import { mockMeals, mockDrinks, mockBeaverTails, mockGinTonic } from './helpers/mockData';
 
 const searchTopBtn = 'search-top-btn';
 const ingre = 'ingredient-search-radio';
@@ -12,7 +13,14 @@ const inputS = 'search-input';
 const btnSear = 'exec-search-btn';
 
 describe('SercheBar tests', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   test('Composição meals SearcBar', async () => {
+    global.fetch = jest.spyOn(global, 'fetch');
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockData),
+    });
     renderWithRouter(<App />, '/meals');
 
     const searchBtn = screen.getByTestId(searchTopBtn);
@@ -91,6 +99,15 @@ describe('SercheBar tests', () => {
     userEvent.type(inputSearch, 'no');
     userEvent.click(btnSearch);
   });
+  test('Busca de meal com multiplas opções', async () => {
+    global.fetch = jest.spyOn(global, 'fetch');
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(mockData),
+    });
+
+    const { history } = renderWithRouter(<App />, '/meals');
+  });
+
   test('Composição drinks SearcBar', async () => {
     renderWithRouter(<App />, '/drinks');
 
