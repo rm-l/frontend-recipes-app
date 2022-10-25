@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 
 function SearchBar() {
-  const { radioSearch, setRadioSearch, inputSearch,
+  const { radioSearch, setRadioSearch, inputSearch, /* drinksList, */ setDrinksList,
     setInputSearch, /* mealsList, */ setMealsList } = useContext(AppContext);
+
+  const { pathname } = useLocation();
 
   const handleRadio = ({ target }) => {
     const { value } = target;
@@ -15,24 +18,56 @@ function SearchBar() {
     setInputSearch(value);
   };
 
-  const fetchMeals = async (endPoint) => {
-    const { meals } = await fetch(endPoint).then((response) => response.json());
-    setMealsList(meals);
+  const fetchApi = async (endPoint) => {
+    if (pathname === '/meals') {
+      const { meals } = await fetch(endPoint).then((response) => response.json());
+      setMealsList(meals);
+    } else if (pathname === '/drinks') {
+      const { drinks } = await fetch(endPoint).then((response) => response.json());
+      setDrinksList(drinks);
+    }
+  };
+
+  const mealsEndpoint = () => {
+    if (radioSearch === 'ingredient') {
+      return `https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputSearch}`;
+    }
+    if (radioSearch === 'name') {
+      return `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputSearch}`;
+    }
+    if (radioSearch === 'first' && inputSearch.length === 1) {
+      return `https://www.themealdb.com/api/json/v1/1/search.php?f=${inputSearch}`;
+    }
+    if (radioSearch === 'first' && inputSearch.length > 1) {
+      return global.alert('Your search must have only 1 (one) character');
+    }
+  };
+
+  const drinksEndpoint = () => {
+    if (radioSearch === 'ingredient') {
+      return `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputSearch}`;
+    }
+    if (radioSearch === 'name') {
+      return `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputSearch}`;
+    }
+    if (radioSearch === 'first' && inputSearch.length === 1) {
+      return `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputSearch}`;
+    }
+    if (radioSearch === 'first' && inputSearch.length > 1) {
+      return global.alert('Your search must have only 1 (one) character');
+    }
   };
 
   const handleClickSearch = () => {
     let endPoint;
-    if (radioSearch === 'ingredient') {
-      endPoint = `https://www.themealdb.com/api/json/v1/1/filter.php?i=${inputSearch}`;
-    } else if (radioSearch === 'name') {
-      endPoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputSearch}`;
-    } else if (radioSearch === 'first' && inputSearch.length === 1) {
-      endPoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${inputSearch}`;
-    } else if (radioSearch === 'first' && inputSearch.length > 1) {
-      global.alert('Your search must have only 1 (one) character');
+    if (pathname === '/meals') {
+      endPoint = mealsEndpoint();
+    } else if (pathname === '/drinks') {
+      endPoint = drinksEndpoint();
     }
+
     if (endPoint) {
-      fetchMeals(endPoint);
+      fetchApi(endPoint);
     }
   };
 
