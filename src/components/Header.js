@@ -5,8 +5,9 @@ import searchIcon from '../images/searchIcon.svg';
 import profileIcon from '../images/profileIcon.svg';
 
 function Header() {
-  const { path, setPath, pageName, setPageName, isPerfilIcon,
-    setIsPerfilIcon, isSearchIcon, setIsSearchIcon } = useContext(AppContext);
+  const { path, setPath, pageName, setPageName, isPerfilIcon, isSearchPressed,
+    setIsPerfilIcon, isSearchIcon, setIsSearchIcon, setIsSearchPressed,
+  } = useContext(AppContext);
 
   const { pathname } = useLocation();
 
@@ -41,6 +42,10 @@ function Header() {
     }
   }, [path, pathname, setIsPerfilIcon, setIsSearchIcon, setPageName, setPath]);
 
+  const handleClickSearch = () => {
+    setIsSearchPressed(!isSearchPressed);
+  };
+
   return (
     <div>
       <h1 data-testid="page-title">{ pageName }</h1>
@@ -58,14 +63,20 @@ function Header() {
       {
         (isSearchIcon) && (
           <>
-            <input
-              type="text"
-              name="search-input"
-              id="search-input"
-              data-testid="search-input"
-            />
+            {
+              (isSearchPressed) && (
+                <input
+                  type="text"
+                  name="search-input"
+                  id="search-input"
+                  data-testid="search-input"
+                  // onChange={}
+                />
+              )
+            }
             <button
               type="button"
+              onClick={ handleClickSearch }
             >
               <img src={ searchIcon } alt="search" data-testid="search-top-btn" />
             </button>
