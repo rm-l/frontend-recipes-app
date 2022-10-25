@@ -3,23 +3,21 @@ import AppContext from '../context/AppContext';
 
 function SearchBar() {
   const { radioSearch, setRadioSearch, inputSearch,
-    setInputSearch /* meals, */ /* setMeals */ } = useContext(AppContext);
+    setInputSearch, /* mealsList, */ setMealsList } = useContext(AppContext);
 
   const handleRadio = ({ target }) => {
-    setRadioSearch(target);
+    const { value } = target;
+    setRadioSearch(value);
   };
 
   const handleChangeInput = ({ target }) => {
-    setInputSearch(target);
+    const { value } = target;
+    setInputSearch(value);
   };
 
   const fetchMeals = async (endPoint) => {
-    // const { meals } = await fetch(endPoint).then((response) => JSON.parse(response));
-    // setMeals(meals);
-    const data = await fetch(endPoint);
-    console.log(data);
-    response = await data.json();
-    console.log(response);
+    const { meals } = await fetch(endPoint).then((response) => response.json());
+    setMealsList(meals);
   };
 
   const handleClickSearch = () => {
@@ -29,11 +27,13 @@ function SearchBar() {
     } else if (radioSearch === 'name') {
       endPoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputSearch}`;
     } else if (radioSearch === 'first' && inputSearch.length === 1) {
-      endPoint = `https://www.themealdb.com/api/json/v1/1/search.php?s=${inputSearch}`;
-    } else if (radioSearch === 'first' && inputSearch > 1) {
+      endPoint = `https://www.themealdb.com/api/json/v1/1/search.php?f=${inputSearch}`;
+    } else if (radioSearch === 'first' && inputSearch.length > 1) {
       global.alert('Your search must have only 1 (one) character');
     }
-    fetchMeals(endPoint);
+    if (endPoint) {
+      fetchMeals(endPoint);
+    }
   };
 
   return (

@@ -13,7 +13,7 @@ function Provider({ children }) {
   const [isSearchPressed, setIsSearchPressed] = useState(false);
   const [radioSearch, setRadioSearch] = useState('');
   const [inputSearch, setInputSearch] = useState('');
-  const [meals, setMeals] = useState([]);
+  const [mealsList, setMealsList] = useState([]);
 
   const contextValue = useMemo(() => ({
     email,
@@ -36,10 +36,10 @@ function Provider({ children }) {
     setRadioSearch,
     inputSearch,
     setInputSearch,
-    meals,
-    setMeals,
+    mealsList,
+    setMealsList,
   }), [email, password, isDisabled, path, pageName, isPerfilIcon, isSearchIcon,
-    isSearchPressed, radioSearch, inputSearch, meals]);
+    isSearchPressed, radioSearch, inputSearch, mealsList]);
 
   return (
     <AppContext.Provider value={ contextValue }>
