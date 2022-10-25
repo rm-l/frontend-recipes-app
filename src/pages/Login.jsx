@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import Footer from '../components/Footer';
 import AppContext from '../context/AppContext';
 
 function Login() {
@@ -55,6 +56,7 @@ function Login() {
           Enviar
         </button>
       </Link>
+      <Footer />
     </div>
   );
 }
