@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 
 function SearchBar() {
@@ -7,6 +7,7 @@ function SearchBar() {
     setInputSearch, /* mealsList, */ setMealsList } = useContext(AppContext);
 
   const { pathname } = useLocation();
+  const history = useHistory();
 
   const handleRadio = ({ target }) => {
     const { value } = target;
@@ -22,9 +23,15 @@ function SearchBar() {
     if (pathname === '/meals') {
       const { meals } = await fetch(endPoint).then((response) => response.json());
       setMealsList(meals);
+      if (meals.length === 1) {
+        history.push(`/meals/${meals[0].idMeal}`);
+      }
     } else if (pathname === '/drinks') {
       const { drinks } = await fetch(endPoint).then((response) => response.json());
       setDrinksList(drinks);
+      if (drinks.length === 1) {
+        history.push(`/drinks/${drinks[0].idDrink}`);
+      }
     }
   };
 
