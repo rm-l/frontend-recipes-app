@@ -1,5 +1,4 @@
 const mockGinTonic = {
-
   drinks: [
     {
       idDrink: '178365',
@@ -55,7 +54,6 @@ const mockGinTonic = {
       dateModified: null,
     },
   ],
-
 };
 
 const mockBeaverTails = {

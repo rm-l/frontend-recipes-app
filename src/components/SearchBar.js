@@ -23,7 +23,8 @@ function SearchBar() {
   const fetchApi = async (endPoint) => {
     const TWELVE = 12;
     if (pathname === '/meals') {
-      const { meals } = await fetch(endPoint).then((response) => response.json());
+      const response = await fetch(endPoint);
+      const { meals } = await response.json();
       if (meals.length === 1) {
         history.push(`/meals/${meals[0].idMeal}`);
         setMealsList(meals);
@@ -35,7 +36,8 @@ function SearchBar() {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
     } else if (pathname === '/drinks') {
-      const { drinks } = await fetch(endPoint).then((response) => response.json());
+      const response = await fetch(endPoint);
+      const { drinks } = await response.json();
       if (drinks.length === 1) {
         history.push(`/drinks/${drinks[0].idDrink}`);
         setDrinksList(drinks);

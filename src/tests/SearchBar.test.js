@@ -1,9 +1,9 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen/* , waitFor */ } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './helpers/renderWithRouter';
 import App from '../App';
-import { mockMeals, mockDrinks, mockBeaverTails, mockGinTonic } from './helpers/mockData';
+import { mockMeals, mockDrinks, /* mockBeaverTails, */ mockGinTonic } from './helpers/mockData';
 
 const searchTopBtn = 'search-top-btn';
 const ingre = 'ingredient-search-radio';
@@ -11,16 +11,14 @@ const rName = 'name-search-radio';
 const letter = 'first-letter-search-radio';
 const inputS = 'search-input';
 const btnSear = 'exec-search-btn';
+const recipeTi = 'recipe-details';
 
 describe('SercheBar tests', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+  global.alert = jest.fn();
   test('Composição meals SearcBar', async () => {
-    global.fetch = jest.spyOn(global, 'fetch');
-    global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockData),
-    });
     renderWithRouter(<App />, '/meals');
 
     const searchBtn = screen.getByTestId(searchTopBtn);
@@ -102,13 +100,53 @@ describe('SercheBar tests', () => {
   test('Busca de meal com multiplas opções', async () => {
     global.fetch = jest.spyOn(global, 'fetch');
     global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue(mockData),
+      json: jest.fn().mockResolvedValue(mockMeals),
     });
 
+    renderWithRouter(<App />, '/meals');
+
+    const searchBtn = screen.getByTestId(searchTopBtn);
+
+    userEvent.click(searchBtn);
+
+    const radioLetter = screen.getByTestId(letter);
+    const inputSearch = screen.getByTestId(inputS);
+    const btnSearch = screen.getByTestId(btnSear);
+
+    userEvent.click(radioLetter);
+    userEvent.type(inputSearch, 'lemon');
+    userEvent.click(btnSearch);
+  });
+  test('Busca de meal com uma opção', async () => {
+    // global.fetch = jest.spyOn(global, 'fetch');
+    // global.fetch = jest.fn().mockResolvedValue({
+    //   json: jest.fn().mockResolvedValue(mockBeaverTails),
+    // });
+
     const { history } = renderWithRouter(<App />, '/meals');
+
+    const searchBtn = screen.getByTestId(searchTopBtn);
+
+    userEvent.click(searchBtn);
+
+    const radioLetter = screen.getByTestId(letter);
+    const inputSearch = screen.getByTestId(inputS);
+    const btnSearch = screen.getByTestId(btnSear);
+
+    userEvent.click(radioLetter);
+    userEvent.type(inputSearch, 'beavertails');
+    userEvent.click(btnSearch);
+
+    const recipeTitle = await screen.findByTestId(recipeTi);
+
+    expect(recipeTitle).toBeInTheDocument();
+
+    const { pathname } = history.location;
+
+    expect(pathname).toBe('/meals/52928');
   });
 
-  test('Composição drinks SearcBar', async () => {
+  test('Composição drinks SearchBar', async () => {
     renderWithRouter(<App />, '/drinks');
 
     const searchBtn = screen.getByTestId(searchTopBtn);
@@ -187,4 +225,52 @@ describe('SercheBar tests', () => {
     userEvent.type(inputSearch, 'no');
     userEvent.click(btnSearch);
   });
+});
+test('Busca de drink com multiplas opções', async () => {
+  global.fetch = jest.spyOn(global, 'fetch');
+  global.fetch = jest.fn().mockResolvedValue({
+    json: jest.fn().mockResolvedValue(mockDrinks),
+  });
+
+  renderWithRouter(<App />, '/drinks');
+
+  const searchBtn = screen.getByTestId(searchTopBtn);
+
+  userEvent.click(searchBtn);
+
+  const radioLetter = screen.getByTestId(letter);
+  const inputSearch = screen.getByTestId(inputS);
+  const btnSearch = screen.getByTestId(btnSear);
+
+  userEvent.click(radioLetter);
+  userEvent.type(inputSearch, 'lemon');
+  userEvent.click(btnSearch);
+});
+test('Busca de meal com uma opção', async () => {
+  global.fetch = jest.spyOn(global, 'fetch');
+  global.fetch = jest.fn().mockResolvedValue({
+    json: jest.fn().mockResolvedValue(mockGinTonic),
+  });
+
+  const { history } = renderWithRouter(<App />, '/drinks');
+
+  const searchBtn = screen.getByTestId(searchTopBtn);
+
+  userEvent.click(searchBtn);
+
+  const radioLetter = screen.getByTestId(letter);
+  const inputSearch = screen.getByTestId(inputS);
+  const btnSearch = screen.getByTestId(btnSear);
+
+  userEvent.click(radioLetter);
+  userEvent.type(inputSearch, 'gin tonic');
+  userEvent.click(btnSearch);
+
+  const recipeTitle = await screen.findByTestId(recipeTi);
+
+  expect(recipeTitle).toBeInTheDocument();
+
+  const { pathname } = history.location;
+
+  expect(pathname).toBe('/drinks/78365');
 });
