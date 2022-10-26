@@ -121,94 +121,59 @@ const mockBeaverTails = {
 const mockMeals = {
   meals: [
     {
-      strMeal: 'Baked salmon with fennel & tomatoes',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/1548772327.jpg',
-      idMeal: '52959',
+      strMeal: 'Brown Stew Chicken',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/sypxpx1515365095.jpg',
+      idMeal: '52940',
     },
     {
-      strMeal: 'BeaverTails',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/ryppsv1511815505.jpg',
-      idMeal: '52928',
+      strMeal: 'Chicken & mushroom Hotpot',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/uuuspp1511297945.jpg',
+      idMeal: '52846',
     },
     {
-      strMeal: 'Blackberry Fool',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/rpvptu1511641092.jpg',
-      idMeal: '52891',
+      strMeal: 'Chicken Alfredo Primavera',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/syqypv1486981727.jpg',
+      idMeal: '52796',
     },
     {
-      strMeal: 'Cajun spiced fish tacos',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/uvuyxu1503067369.jpg',
-      idMeal: '52819',
+      strMeal: 'Chicken Basquaise',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/wruvqv1511880994.jpg',
+      idMeal: '52934',
     },
     {
-      strMeal: 'Chicken Karaage',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/tyywsw1505930373.jpg',
-      idMeal: '52831',
+      strMeal: 'Chicken Congee',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/1529446352.jpg',
+      idMeal: '52956',
     },
     {
-      strMeal: 'Chicken Quinoa Greek Salad',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/k29viq1585565980.jpg',
-      idMeal: '53011',
+      strMeal: 'Chicken Handi',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/wyxwsp1486979827.jpg',
+      idMeal: '52795',
     },
     {
-      strMeal: 'Eccles Cakes',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/wtqrqw1511639627.jpg',
-      idMeal: '52888',
+      strMeal: 'Kentucky Fried Chicken',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/xqusqy1487348868.jpg',
+      idMeal: '52813',
     },
     {
-      strMeal: 'Grilled Portuguese sardines',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/lpd4wy1614347943.jpg',
-      idMeal: '53041',
+      strMeal: 'Kung Pao Chicken',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/1525872624.jpg',
+      idMeal: '52945',
     },
     {
-      strMeal: 'Honey Yogurt Cheesecake',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/y2irzl1585563479.jpg',
-      idMeal: '53007',
+      strMeal: 'Pad See Ew',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/uuuspp1468263334.jpg',
+      idMeal: '52774',
     },
     {
-      strMeal: 'Keleya Zaara',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/8x09hy1560460923.jpg',
-      idMeal: '52974',
+      strMeal: 'Piri-piri chicken and slaw',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/hglsbl1614346998.jpg',
+      idMeal: '53039',
     },
     {
-      strMeal: 'Lamb and Lemon Souvlaki',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/rjhf741585564676.jpg',
-      idMeal: '53009',
-    },
-    {
-      strMeal: 'Madeira Cake',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/urtqut1511723591.jpg',
-      idMeal: '52900',
-    },
-    {
-      strMeal: 'Portuguese barbecued pork (Febras assadas)',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/cybyue1614349443.jpg',
-      idMeal: '53044',
-    },
-    {
-      strMeal: 'Salmon Prawn Risotto',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/xxrxux1503070723.jpg',
-      idMeal: '52823',
-    },
-    {
-      strMeal: 'Skillet Apple Pork Chops with Roasted Sweet Potatoes & Zucchini',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/h3ijwo1581013377.jpg',
-      idMeal: '52994',
-    },
-    {
-      strMeal: 'Spicy North African Potato Salad',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/urtwux1486983078.jpg',
-      idMeal: '52797',
-    },
-    {
-      strMeal: 'Spotted Dick',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/xqvyqr1511638875.jpg',
-      idMeal: '52886',
-    },
-    {
-      strMeal: 'Tahini Lentils',
-      strMealThumb: 'https://www.themealdb.com/images/media/meals/vpxyqt1511464175.jpg',
-      idMeal: '52869',
+      strMeal: 'Thai Green Curry',
+      strMealThumb: 'https://www.themealdb.com/images/media/meals/sstssx1487349585.jpg',
+      idMeal: '52814',
     },
   ],
 };
@@ -720,4 +685,13 @@ const mockDrinks = {
 
 };
 
-export { mockMeals, mockDrinks, mockGinTonic, mockBeaverTails };
+const mockMealsNull = {
+  ingredients: null,
+};
+
+const mockDrinksNull = {
+  ingredients: null,
+};
+
+export { mockMeals, mockDrinks, mockGinTonic, mockBeaverTails,
+  mockMealsNull, mockDrinksNull };

@@ -20,31 +20,40 @@ function SearchBar() {
     setInputSearch(value);
   };
 
+  const mealsCase = (meals) => {
+    const TWELVE = 12;
+    if (meals.length === 1) {
+      history.push(`/meals/${meals[0].idMeal}`);
+      setMealsList(meals);
+    } else {
+      const filteredMeals = meals.filter((item, index) => index < TWELVE);
+      setMealsList(filteredMeals);
+      setIsMultipleMeals(true);
+    }
+  };
+
   const fetchApi = async (endPoint) => {
     const TWELVE = 12;
     if (pathname === '/meals') {
       const response = await fetch(endPoint);
       const { meals } = await response.json();
-      if (meals.length === 1) {
-        history.push(`/meals/${meals[0].idMeal}`);
-        setMealsList(meals);
-      } else if (meals.length > 1) {
-        const filteredMeals = meals.filter((item, index) => index < TWELVE);
-        setMealsList(filteredMeals);
-        setIsMultipleMeals(true);
+      if (meals) {
+        mealsCase(meals);
       } else {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
-    } else if (pathname === '/drinks') {
+    } else {
       const response = await fetch(endPoint);
       const { drinks } = await response.json();
-      if (drinks.length === 1) {
-        history.push(`/drinks/${drinks[0].idDrink}`);
-        setDrinksList(drinks);
-      } else if (drinks.length > 1) {
-        const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
-        setDrinksList(filteredDrinks);
-        setIsMultipleDrinks(true);
+      if (drinks) {
+        if (drinks.length === 1) {
+          history.push(`/drinks/${drinks[0].idDrink}`);
+          setDrinksList(drinks);
+        } else {
+          const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
+          setDrinksList(filteredDrinks);
+          setIsMultipleDrinks(true);
+        }
       } else {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
@@ -85,13 +94,14 @@ function SearchBar() {
     let endPoint;
     if (pathname === '/meals') {
       endPoint = mealsEndpoint();
-    } else if (pathname === '/drinks') {
+    } else {
       endPoint = drinksEndpoint();
     }
 
-    if (endPoint) {
-      fetchApi(endPoint);
-    }
+    fetchApi(endPoint);
+
+    // if (endPoint) {
+    // }
   };
 
   return (
