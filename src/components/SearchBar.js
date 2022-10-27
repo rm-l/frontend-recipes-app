@@ -1,13 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import AppContext from '../context/AppContext';
-import Recipes from './Recipes';
 
 function SearchBar() {
   const { radioSearch, setRadioSearch, inputSearch, setDrinksList,
-    setInputSearch, setMealsList, isMultipleMeals, setIsMultipleMeals,
-    isMultipleDrinks, setIsMultipleDrinks, setPath, mealsList, drinksList,
-    setIsInitialDrinks, setIsInitialMeals,
+    setInputSearch, setMealsList, setIsMultipleMeals,
+    setIsMultipleDrinks, setPath,
   } = useContext(AppContext);
 
   const { pathname } = useLocation();
@@ -30,26 +28,26 @@ function SearchBar() {
   const mealsCase = (meals) => {
     const TWELVE = 12;
     if (meals.length === 1) {
-      history.push(`/meals/${meals[0].idMeal}`);
       setMealsList(meals);
+      setIsMultipleMeals(false);
+      history.push(`/meals/${meals[0].idMeal}`);
     } else {
       const filteredMeals = meals.filter((item, index) => index < TWELVE);
       setMealsList(filteredMeals);
       setIsMultipleMeals(true);
-      setIsInitialMeals(false);
     }
   };
 
   const drinksCase = (drinks) => {
     const TWELVE = 12;
     if (drinks.length === 1) {
-      history.push(`/drinks/${drinks[0].idDrink}`);
       setDrinksList(drinks);
+      setIsMultipleDrinks(false);
+      history.push(`/drinks/${drinks[0].idDrink}`);
     } else {
       const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
       setDrinksList(filteredDrinks);
       setIsMultipleDrinks(true);
-      setIsInitialDrinks(false);
     }
   };
 
@@ -160,34 +158,6 @@ function SearchBar() {
         <button type="button" data-testid="exec-search-btn" onClick={ handleClickSearch }>
           Search
         </button>
-      </div>
-      <div>
-        <div>
-          {
-            (isMultipleMeals) && (
-              mealsList.map((meal, indexM) => (
-                <Recipes
-                  meal={ meal }
-                  indexM={ indexM }
-                  key={ meal.strMeal }
-                  data-testid={ `${indexM}-recipe-card` }
-                />
-              )))
-          }
-        </div>
-        <div>
-          {
-            (isMultipleDrinks) && (
-              drinksList.map((drink, indexD) => (
-                <Recipes
-                  drink={ drink }
-                  indexD={ indexD }
-                  key={ drink.strDrink }
-                  data-testid={ `${indexD}-recipe-card` }
-                />
-              )))
-          }
-        </div>
       </div>
     </div>
   );

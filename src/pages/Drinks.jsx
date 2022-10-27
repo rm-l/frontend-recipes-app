@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import AppContext from '../context/AppContext';
-import Recipes from '../components/Recipes';
+import Recipes from './Recipes';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Drinks() {
-  const { setDrinksList, setIsMultipleDrinks, setPath, drinksList,
-    setIsInitialDrinks, isInitialDrinks } = useContext(AppContext);
+  const { setDrinksList, setIsMultipleDrinks, setPath,
+  } = useContext(AppContext);
 
   const { pathname } = useLocation();
 
@@ -20,28 +20,15 @@ function Drinks() {
       const { drinks } = await response.json();
       const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
       setDrinksList(filteredDrinks);
-      setIsMultipleDrinks(false);
-      setIsInitialDrinks(true);
+      setIsMultipleDrinks(true);
     };
     fetchInitialApi();
-  }, []);
+  }, [pathname, setDrinksList, setIsMultipleDrinks, setPath]);
 
   return (
     <div>
       <Header />
-      <div>
-        {
-          (isInitialDrinks) && (
-            drinksList.map((drink, indexD) => (
-              <div key={ drink.strDrink } data-testid={ `${indexD}-recipe-card` }>
-                <Recipes
-                  drink={ drink }
-                  indexD={ indexD }
-                />
-              </div>
-            )))
-        }
-      </div>
+      <Recipes />
       <Footer />
     </div>
   );

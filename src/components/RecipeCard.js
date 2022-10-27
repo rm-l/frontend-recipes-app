@@ -2,14 +2,14 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import AppContext from '../context/AppContext';
 
-function Recipes({ meal, indexM, indexD, drink }) {
+function RecipeCard({ meal, indexM, indexD, drink }) {
   const { path } = useContext(AppContext);
 
   return (
     <div>
       {
-        (path === '/meals') ? (
-          <div>
+        (path === '/meals') && (
+          <div data-testid={ `${indexM}-recipe-card` }>
             <p data-testid={ `${indexM}-card-name` }>{meal.strMeal}</p>
             <img
               src={ meal.strMealThumb }
@@ -18,22 +18,25 @@ function Recipes({ meal, indexM, indexD, drink }) {
             />
           </div>
         )
-          : (
-            <div>
-              <p data-testid={ `${indexD}-card-name` }>{drink.strDrink}</p>
-              <img
-                src={ drink.strDrinkThumb }
-                alt={ drink.strDrink }
-                data-testid={ `${indexD}-card-img` }
-              />
-            </div>
-          )
+      }
+      {
+        (path === '/drinks')
+           && (
+             <div data-testid={ `${indexD}-recipe-card` }>
+               <p data-testid={ `${indexD}-card-name` }>{drink.strDrink}</p>
+               <img
+                 src={ drink.strDrinkThumb }
+                 alt={ drink.strDrink }
+                 data-testid={ `${indexD}-card-img` }
+               />
+             </div>
+           )
       }
     </div>
   );
 }
 
-Recipes.propTypes = {
+RecipeCard.propTypes = {
   meal: PropTypes.shape({
     srtMeal: PropTypes.string,
     strMealThumb: PropTypes.string,
@@ -46,4 +49,4 @@ Recipes.propTypes = {
   indexD: PropTypes.string,
 }.isRequired;
 
-export default Recipes;
+export default RecipeCard;
