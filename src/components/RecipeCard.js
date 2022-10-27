@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 
 function RecipeCard({ meal, indexM, indexD, drink }) {
@@ -9,27 +10,31 @@ function RecipeCard({ meal, indexM, indexD, drink }) {
     <div>
       {
         (path === '/meals') && (
-          <div data-testid={ `${indexM}-recipe-card` }>
-            <p data-testid={ `${indexM}-card-name` }>{meal.strMeal}</p>
-            <img
-              src={ meal.strMealThumb }
-              alt={ meal.strMeal }
-              data-testid={ `${indexM}-card-img` }
-            />
-          </div>
+          <Link to={ `/meals/${meal.idMeal}` }>
+            <div data-testid={ `${indexM}-recipe-card` }>
+              <p data-testid={ `${indexM}-card-name` }>{meal.strMeal}</p>
+              <img
+                src={ meal.strMealThumb }
+                alt={ meal.strMeal }
+                data-testid={ `${indexM}-card-img` }
+              />
+            </div>
+          </Link>
         )
       }
       {
         (path === '/drinks')
            && (
-             <div data-testid={ `${indexD}-recipe-card` }>
-               <p data-testid={ `${indexD}-card-name` }>{drink.strDrink}</p>
-               <img
-                 src={ drink.strDrinkThumb }
-                 alt={ drink.strDrink }
-                 data-testid={ `${indexD}-card-img` }
-               />
-             </div>
+             <Link to={ `/drinks/${drink.idDrink}` }>
+               <div data-testid={ `${indexD}-recipe-card` }>
+                 <p data-testid={ `${indexD}-card-name` }>{drink.strDrink}</p>
+                 <img
+                   src={ drink.strDrinkThumb }
+                   alt={ drink.strDrink }
+                   data-testid={ `${indexD}-card-img` }
+                 />
+               </div>
+             </Link>
            )
       }
     </div>
