@@ -7,6 +7,7 @@ function Recipes() {
   const { isMultipleMeals, isMultipleDrinks, mealsList, drinksList, path,
     setMealCategories, setDrinkCategories, mealCategories, drinkCategories,
     setIsMultipleMeals, setIsMultipleDrinks, setMealsList, setDrinksList,
+    isFiltered, setIsFiltered,
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -49,21 +50,33 @@ function Recipes() {
   };
 
   const handleClickMealCat = async (category) => {
-    const TWELVE = 12;
-    const endPoint = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
-    const response = await fetch(endPoint);
-    const { meals } = await response.json();
-    const filteredMeals = meals.filter((item, index) => index < TWELVE);
-    setMealsList(filteredMeals);
+    if (isFiltered) {
+      handleClickAllCat();
+      setIsFiltered(false);
+    } else {
+      const TWELVE = 12;
+      const endPoint = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+      const response = await fetch(endPoint);
+      const { meals } = await response.json();
+      const filteredMeals = meals.filter((item, index) => index < TWELVE);
+      setMealsList(filteredMeals);
+      setIsFiltered(true);
+    }
   };
 
   const handleClickDrinkCat = async (category) => {
-    const TWELVE = 12;
-    const endPoint = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
-    const response = await fetch(endPoint);
-    const { drinks } = await response.json();
-    const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
-    setDrinksList(filteredDrinks);
+    if (isFiltered) {
+      handleClickAllCat();
+      setIsFiltered(false);
+    } else {
+      const TWELVE = 12;
+      const endPoint = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
+      const response = await fetch(endPoint);
+      const { drinks } = await response.json();
+      const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
+      setDrinksList(filteredDrinks);
+      setIsFiltered(true);
+    }
   };
 
   return (
