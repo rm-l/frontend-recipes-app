@@ -17,6 +17,8 @@ function Provider({ children }) {
   const [drinksList, setDrinksList] = useState([]);
   const [isMultipleMeals, setIsMultipleMeals] = useState(false);
   const [isMultipleDrinks, setIsMultipleDrinks] = useState(false);
+  const [isInitialMeals, setIsInitialMeals] = useState(false);
+  const [isInitialDrinks, setIsInitialDrinks] = useState(false);
 
   const contextValue = useMemo(() => ({
     email,
@@ -47,9 +49,13 @@ function Provider({ children }) {
     setIsMultipleMeals,
     isMultipleDrinks,
     setIsMultipleDrinks,
+    isInitialMeals,
+    setIsInitialMeals,
+    isInitialDrinks,
+    setIsInitialDrinks,
   }), [email, password, isDisabled, path, pageName, isPerfilIcon, isSearchIcon,
     isSearchPressed, radioSearch, inputSearch, mealsList, drinksList, isMultipleMeals,
-    isMultipleDrinks]);
+    isMultipleDrinks, isInitialMeals, isInitialDrinks]);
 
   return (
     <AppContext.Provider value={ contextValue }>

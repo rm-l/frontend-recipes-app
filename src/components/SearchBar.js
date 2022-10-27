@@ -1,14 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import AppContext from '../context/AppContext';
+import Recipes from './Recipes';
 
 function SearchBar() {
-  const { radioSearch, setRadioSearch, inputSearch, drinksList, setDrinksList,
-    setInputSearch, mealsList, setMealsList, isMultipleMeals, setIsMultipleMeals,
-    isMultipleDrinks, setIsMultipleDrinks } = useContext(AppContext);
+  const { radioSearch, setRadioSearch, inputSearch, setDrinksList,
+    setInputSearch, setMealsList, isMultipleMeals, setIsMultipleMeals,
+    isMultipleDrinks, setIsMultipleDrinks, setPath, mealsList, drinksList,
+    setIsInitialDrinks, setIsInitialMeals,
+  } = useContext(AppContext);
 
   const { pathname } = useLocation();
   const history = useHistory();
+
+  useEffect(() => {
+    setPath(pathname);
+  }, [pathname, setPath]);
 
   const handleRadio = ({ target }) => {
     const { value } = target;
@@ -29,11 +36,24 @@ function SearchBar() {
       const filteredMeals = meals.filter((item, index) => index < TWELVE);
       setMealsList(filteredMeals);
       setIsMultipleMeals(true);
+      setIsInitialMeals(false);
+    }
+  };
+
+  const drinksCase = (drinks) => {
+    const TWELVE = 12;
+    if (drinks.length === 1) {
+      history.push(`/drinks/${drinks[0].idDrink}`);
+      setDrinksList(drinks);
+    } else {
+      const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
+      setDrinksList(filteredDrinks);
+      setIsMultipleDrinks(true);
+      setIsInitialDrinks(false);
     }
   };
 
   const fetchApi = async (endPoint) => {
-    const TWELVE = 12;
     if (pathname === '/meals') {
       const response = await fetch(endPoint);
       const { meals } = await response.json();
@@ -46,14 +66,7 @@ function SearchBar() {
       const response = await fetch(endPoint);
       const { drinks } = await response.json();
       if (drinks) {
-        if (drinks.length === 1) {
-          history.push(`/drinks/${drinks[0].idDrink}`);
-          setDrinksList(drinks);
-        } else {
-          const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
-          setDrinksList(filteredDrinks);
-          setIsMultipleDrinks(true);
-        }
+        drinksCase(drinks);
       } else {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
@@ -99,9 +112,6 @@ function SearchBar() {
     }
 
     fetchApi(endPoint);
-
-    // if (endPoint) {
-    // }
   };
 
   return (
@@ -152,34 +162,32 @@ function SearchBar() {
         </button>
       </div>
       <div>
-        {
-          (isMultipleMeals) && (
-            mealsList.map((meal, index) => (
-              <div key={ meal.strMeal } data-testid={ `${index}-recipe-card` }>
-                <p data-testid={ `${index}-card-name` }>{meal.strMeal}</p>
-                <img
-                  src={ meal.strMealThumb }
-                  alt={ meal.strMeal }
-                  data-testid={ `${index}-card-img` }
+        <div>
+          {
+            (isMultipleMeals) && (
+              mealsList.map((meal, indexM) => (
+                <Recipes
+                  meal={ meal }
+                  indexM={ indexM }
+                  key={ meal.strMeal }
+                  data-testid={ `${indexM}-recipe-card` }
                 />
-              </div>
-            ))
-          )
-        }
-        {
-          (isMultipleDrinks) && (
-            drinksList.map((drink, index) => (
-              <div key={ drink.strDrink } data-testid={ `${index}-recipe-card` }>
-                <p data-testid={ `${index}-card-name` }>{drink.strDrink}</p>
-                <img
-                  src={ drink.strDrinkThumb }
-                  alt={ drink.strDrink }
-                  data-testid={ `${index}-card-img` }
+              )))
+          }
+        </div>
+        <div>
+          {
+            (isMultipleDrinks) && (
+              drinksList.map((drink, indexD) => (
+                <Recipes
+                  drink={ drink }
+                  indexD={ indexD }
+                  key={ drink.strDrink }
+                  data-testid={ `${indexD}-recipe-card` }
                 />
-              </div>
-            ))
-          )
-        }
+              )))
+          }
+        </div>
       </div>
     </div>
   );
