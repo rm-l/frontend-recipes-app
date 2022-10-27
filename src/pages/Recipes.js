@@ -6,6 +6,7 @@ import RecipeCard from '../components/RecipeCard';
 function Recipes() {
   const { isMultipleMeals, isMultipleDrinks, mealsList, drinksList, path,
     setMealCategories, setDrinkCategories, mealCategories, drinkCategories,
+    setIsMultipleMeals, setIsMultipleDrinks, setMealsList, setDrinksList,
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -28,9 +29,52 @@ function Recipes() {
     fetchCategories();
   }, [path, setDrinkCategories, setMealCategories]);
 
+  const handleClickAllCat = async () => {
+    const TWELVE = 12;
+    if (path === '/meals') {
+      const endPoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      const response = await fetch(endPoint);
+      const { meals } = await response.json();
+      const filteredMeals = meals.filter((item, index) => index < TWELVE);
+      setMealsList(filteredMeals);
+      setIsMultipleMeals(true);
+    } else if (path === '/drinks') {
+      const endPoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      const response = await fetch(endPoint);
+      const { drinks } = await response.json();
+      const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
+      setDrinksList(filteredDrinks);
+      setIsMultipleDrinks(true);
+    }
+  };
+
+  const handleClickMealCat = async (category) => {
+    const TWELVE = 12;
+    const endPoint = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`;
+    const response = await fetch(endPoint);
+    const { meals } = await response.json();
+    const filteredMeals = meals.filter((item, index) => index < TWELVE);
+    setMealsList(filteredMeals);
+  };
+
+  const handleClickDrinkCat = async (category) => {
+    const TWELVE = 12;
+    const endPoint = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${category}`;
+    const response = await fetch(endPoint);
+    const { drinks } = await response.json();
+    const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
+    setDrinksList(filteredDrinks);
+  };
+
   return (
     <div>
-      <button type="button">All</button>
+      <button
+        type="button"
+        data-testid="All-category-filter"
+        onClick={ handleClickAllCat }
+      >
+        All
+      </button>
       <div>
         {
           (path === '/meals') && (
@@ -39,6 +83,7 @@ function Recipes() {
                 type="button"
                 key={ index }
                 data-testid={ `${mCat.strCategory}-category-filter` }
+                onClick={ () => handleClickMealCat(mCat.strCategory) }
               >
                 {mCat.strCategory}
               </button>
@@ -50,8 +95,9 @@ function Recipes() {
             drinkCategories.map((dCat, index) => (
               <button
                 type="button"
-                data-testid={ `${dCat.strCategory}-category-filter` }
                 key={ index }
+                data-testid={ `${dCat.strCategory}-category-filter` }
+                onClick={ () => handleClickDrinkCat(dCat.strCategory) }
               >
                 {dCat.strCategory}
               </button>
