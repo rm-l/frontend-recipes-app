@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import AppContext from '../context/AppContext';
 import RecipeCard from '../components/RecipeCard';
 
@@ -145,18 +144,5 @@ function Recipes() {
     </div>
   );
 }
-
-Recipes.propTypes = {
-  meal: PropTypes.shape({
-    srtMeal: PropTypes.string,
-    strMealThumb: PropTypes.string,
-  }),
-  drink: PropTypes.shape({
-    srtDrink: PropTypes.string,
-    strDrinkThumb: PropTypes.string,
-  }),
-  indexM: PropTypes.string,
-  indexD: PropTypes.string,
-}.isRequired;
 
 export default Recipes;
