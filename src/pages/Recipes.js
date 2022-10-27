@@ -38,7 +38,7 @@ function Recipes() {
       const filteredMeals = meals.filter((item, index) => index < TWELVE);
       setMealsList(filteredMeals);
       setIsMultipleMeals(true);
-    } else if (path === '/drinks') {
+    } else {
       const endPoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       const response = await fetch(endPoint);
       const { drinks } = await response.json();
