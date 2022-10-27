@@ -8,7 +8,7 @@ function Recipes({ meal, indexM, indexD, drink }) {
   return (
     <div>
       {
-        (path === '/meals') ? (
+        (path === '/meals') && (
           <div>
             <p data-testid={ `${indexM}-card-name` }>{meal.strMeal}</p>
             <img
@@ -18,16 +18,19 @@ function Recipes({ meal, indexM, indexD, drink }) {
             />
           </div>
         )
-          : (
-            <div>
-              <p data-testid={ `${indexD}-card-name` }>{drink.strDrink}</p>
-              <img
-                src={ drink.strDrinkThumb }
-                alt={ drink.strDrink }
-                data-testid={ `${indexD}-card-img` }
-              />
-            </div>
-          )
+      }
+      {
+        (path === '/drinks')
+           && (
+             <div>
+               <p data-testid={ `${indexD}-card-name` }>{drink.strDrink}</p>
+               <img
+                 src={ drink.strDrinkThumb }
+                 alt={ drink.strDrink }
+                 data-testid={ `${indexD}-card-img` }
+               />
+             </div>
+           )
       }
     </div>
   );

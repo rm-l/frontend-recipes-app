@@ -24,7 +24,7 @@ function Meals() {
       setIsInitialMeals(true);
     };
     fetchInitialApi();
-  }, []);
+  }, [pathname, setIsInitialMeals, setIsMultipleMeals, setMealsList, setPath]);
 
   return (
     <div>

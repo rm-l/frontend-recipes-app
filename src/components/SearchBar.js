@@ -166,12 +166,12 @@ function SearchBar() {
           {
             (isMultipleMeals) && (
               mealsList.map((meal, indexM) => (
-                <Recipes
-                  meal={ meal }
-                  indexM={ indexM }
-                  key={ meal.strMeal }
-                  data-testid={ `${indexM}-recipe-card` }
-                />
+                <div key={ meal.strMeal } data-testid={ `${indexM}-recipe-card` }>
+                  <Recipes
+                    meal={ meal }
+                    indexM={ indexM }
+                  />
+                </div>
               )))
           }
         </div>
@@ -179,12 +179,12 @@ function SearchBar() {
           {
             (isMultipleDrinks) && (
               drinksList.map((drink, indexD) => (
-                <Recipes
-                  drink={ drink }
-                  indexD={ indexD }
-                  key={ drink.strDrink }
-                  data-testid={ `${indexD}-recipe-card` }
-                />
+                <div key={ drink.strDrink } data-testid={ `${indexD}-recipe-card` }>
+                  <Recipes
+                    drink={ drink }
+                    indexD={ indexD }
+                  />
+                </div>
               )))
           }
         </div>

@@ -24,7 +24,7 @@ function Drinks() {
       setIsInitialDrinks(true);
     };
     fetchInitialApi();
-  }, []);
+  }, [pathname, setDrinksList, setIsInitialDrinks, setIsMultipleDrinks, setPath]);
 
   return (
     <div>
