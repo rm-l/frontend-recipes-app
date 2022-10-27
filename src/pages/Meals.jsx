@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import AppContext from '../context/AppContext';
-import Recipes from '../components/Recipes';
+import Recipes from './Recipes';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Meals() {
-  const { setMealsList, setIsMultipleMeals, setPath, mealsList, isInitialMeals,
-    setIsInitialMeals } = useContext(AppContext);
+  const { setMealsList, setIsMultipleMeals, setPath,
+  } = useContext(AppContext);
 
   const { pathname } = useLocation();
 
@@ -20,28 +20,15 @@ function Meals() {
       const { meals } = await response.json();
       const filteredMeals = meals.filter((item, index) => index < TWELVE);
       setMealsList(filteredMeals);
-      setIsMultipleMeals(false);
-      setIsInitialMeals(true);
+      setIsMultipleMeals(true);
     };
     fetchInitialApi();
-  }, [pathname, setIsInitialMeals, setIsMultipleMeals, setMealsList, setPath]);
+  }, [pathname, setIsMultipleMeals, setMealsList, setPath]);
 
   return (
     <div>
       <Header />
-      <div>
-        {
-          (isInitialMeals) && (
-            mealsList.map((meal, indexM) => (
-              <div key={ meal.strMeal } data-testid={ `${indexM}-recipe-card` }>
-                <Recipes
-                  meal={ meal }
-                  indexM={ indexM }
-                />
-              </div>
-            )))
-        }
-      </div>
+      <Recipes />
       <Footer />
     </div>
 
