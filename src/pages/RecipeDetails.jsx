@@ -42,7 +42,7 @@ function RecipeDetails() {
                 <h1 data-testid="recipe-title">
                   {meal.strMeal}
                 </h1>
-                <span data-testid="recipe-category">
+                <span data-testid="recipe-category"> 
                   {meal.strCategory}
                 </span>
                 <img
