@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 function RecipeDetails() {
   const [recipe, setRecipe] = useState();
+  const [ingredients, setIngredients] = useState;
   const { pathname } = useLocation();
   // const history = useHistory();
 
@@ -31,6 +32,20 @@ function RecipeDetails() {
     fetchApi();
   }, [id, pathname]);
 
+  const ingredientsFilter = () => {
+    const ingre = [];
+    const recipeEntries = Object.entries(recipe);
+    for (let i = 0; i < recipeEntries.length; i += 1) {
+      if (recipeEntries[i][0].includes('strIngredient') && recipeEntries[i][1] !== ''
+          && recipeEntries[i][1] !== null) {
+        ingre.push(recipeEntries[i][1]);
+      }
+    }
+    setIngredients(ingre);
+  };
+
+  console.log(ingredients);
+
   return (
     <div data-testid="recipe-details">
       {
@@ -42,7 +57,7 @@ function RecipeDetails() {
                 <h1 data-testid="recipe-title">
                   {meal.strMeal}
                 </h1>
-                <span data-testid="recipe-category"> 
+                <span data-testid="recipe-category">
                   {meal.strCategory}
                 </span>
                 <img
