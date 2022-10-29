@@ -1,0 +1,7 @@
+.checkbox input:checked {
+  text-decoration: line-through solid rgb(0, 0, 0)
+}
+
+.checkedClass {
+  text-decoration: line-through solid rgb(0, 0, 0)
+}

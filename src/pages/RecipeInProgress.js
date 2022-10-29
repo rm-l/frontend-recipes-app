@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import AppContext from '../context/AppContext';
+import '../styles/RecipeInProgress.css';
 
 function RecipeInProgress() {
   const { recipeInProgress, setRecipeInProgress, path, setPath, isMealInProgress,
@@ -81,38 +82,52 @@ function RecipeInProgress() {
   }, [id, isMealInProgress, path, pathname, setIsDrinkInProgress, setIsMealInProgress,
     setPath, setRecipeInProgress]);
 
+  const handleChangeCheck = ({ target }) => {
+    const { checked, name } = target;
+    if (checked) {
+      const labelActual = document.getElementById(name);
+      labelActual.classList.add('checkedClass');
+    }
+  };
+
   return (
     <div>
       {
         (isMealInProgress) && (
           recipeInProgress?.map((item) => (
             <div key={ item.idMeal }>
-              <h2 data-testid="recipe-title">{item.strMeal}</h2>
+              <p data-testid="recipe-title">{item.strMeal}</p>
               <button type="button" data-testid="share-btn">Share</button>
               <button type="button" data-testid="favorite-btn">Favorite</button>
               <button type="button" data-testid="finish-recipe-btn">Finish</button>
               <div>
                 <img
-                  style={ { width: '200px', height: '210px' } }
+                  style={ { width: '100px', height: '100px' } }
                   src={ item.strMealThumb }
                   alt={ item.strMeal }
                   data-testid="recipe-photo"
                 />
               </div>
               <h4 data-testid="recipe-category">{item.strCategory}</h4>
-              <p data-testid="instructions">{item.strInstructions}</p>
+              <p
+                data-testid="instructions"
+                style={ { 'font-size': '10px' } }
+              >
+                {item.strInstructions}
+              </p>
               {
                 ingredients?.map((ing, index) => (
                   <div key={ index }>
                     <label
                       htmlFor={ `${index}-ingredient-step` }
+                      id={ `${index}-ingredient-step` }
                       data-testid={ `${index}-ingredient-step` }
                     >
                       {ing}
                       <input
                         type="checkbox"
-                        name="ingredient-step"
-                        id={ `${index}-ingredient-step` }
+                        name={ `${index}-ingredient-step` }
+                        onChange={ handleChangeCheck }
                       />
                     </label>
                   </div>
@@ -145,13 +160,14 @@ function RecipeInProgress() {
                   <div key={ index }>
                     <label
                       htmlFor={ `${index}ingredient-step` }
+                      id={ `${index}-ingredient-step` }
                       data-testid={ `${index}-ingredient-step` }
                     >
                       {ingr}
                       <input
                         type="checkbox"
-                        name="ingredient-step"
-                        id={ `${index}-ingredient-step` }
+                        name={ `${index}-ingredient-step` }
+                        onChange={ handleChangeCheck }
                       />
                     </label>
                   </div>
