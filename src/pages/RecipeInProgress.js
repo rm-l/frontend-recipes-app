@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 import '../styles/RecipeInProgress.css';
@@ -7,6 +7,9 @@ function RecipeInProgress() {
   const { recipeInProgress, setRecipeInProgress, path, setPath, isMealInProgress,
     setIsMealInProgress, isDrinkInProgress, ingredients, setIngredients, /* measures, */
     setIsDrinkInProgress, setMeasures } = useContext(AppContext);
+
+  const [ingredientsUsedList, setIngredientsUsedList] = useState([]);
+  const [isIngredientUsedList, setIsIngredientUsedList] = useState([]);
 
   const { pathname } = useLocation();
   const { id } = useParams();
@@ -87,8 +90,35 @@ function RecipeInProgress() {
     if (checked) {
       const labelActual = document.getElementById(name);
       labelActual.classList.add('checkedClass');
+      if (isMealInProgress) {
+        const previous = ingredientsUsedList.meals[id];
+        const newIngredientsUsedList = ingredientsUsedList;
+        const modifiedIdIngredientsList = [...previous, name];
+        newIngredientsUsedList.meals[id] = modifiedIdIngredientsList;
+        localStorage.setItem('inProgressRecipes', newIngredientsUsedList);
+      } else {
+        const previous = ingredientsUsedList.drinks[id];
+        const newIngredientsUsedList = ingredientsUsedList;
+        const modifiedIdIngredientsList = [...previous, name];
+        newIngredientsUsedList.meals[id] = modifiedIdIngredientsList;
+        localStorage.setItem('inProgressRecipes', newIngredientsUsedList);
+      }
     }
   };
+
+  useEffect(() => {
+    const ingreList = localStorage.getItem('inProgressRecipes');
+    setIngredientsUsedList(ingreList);
+    const checkedList = [];
+    ingredients.forEach((ingred) => {
+      if (ingredientsUsedList.find((item) => ingred === item)) {
+        checkedList.push(true);
+      } else {
+        checkedList.push(false);
+      }
+    });
+    setIsIngredientUsedList(checkedList);
+  }, []);
 
   return (
     <div>
