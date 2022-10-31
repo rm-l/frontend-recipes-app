@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import ReactPlayer from 'react-player';
 
 function RecipeDetails() {
   const [recipe, setRecipe] = useState();
@@ -36,18 +37,19 @@ function RecipeDetails() {
     const coisasFilter = async () => {
       const ingre = [];
       const measure = [];
-      const recipeEntries = Object.entries(recipe[0]);
-      for (let i = 0; i < recipeEntries.length; i += 1) {
-        if (recipeEntries[i][0].includes('strIngredient') && recipeEntries[i][1] !== ''
-              && recipeEntries[i][1] !== null) {
-          ingre.push(recipeEntries[i][1]);
-        }
-        if (recipeEntries[i][0].includes('strMeasure') && recipeEntries[i][1] !== ' '
-        && recipeEntries[i][1] !== null) {
-          measure.push(recipeEntries[i][1]);
+      if (recipe) {
+        const recipeEntries = Object.entries(recipe[0]);
+        for (let i = 0; i < recipeEntries.length; i += 1) {
+          if (recipeEntries[i][0].includes('strIngredient') && recipeEntries[i][1] !== ''
+                && recipeEntries[i][1] !== null) {
+            ingre.push(recipeEntries[i][1]);
+          }
+          if (recipeEntries[i][0].includes('strMeasure') && recipeEntries[i][1] !== ' '
+          && recipeEntries[i][1] !== null) {
+            measure.push(recipeEntries[i][1]);
+          }
         }
       }
-
       const itens = ingre.map((item, index) => ({
         ingredientes: item,
         medidas: measure[index],
@@ -58,7 +60,7 @@ function RecipeDetails() {
     coisasFilter();
   }, [recipe]);
 
-  console.log(coisas);
+  // console.log(coisas);
 
   return (
     <div data-testid="recipe-details">
@@ -94,6 +96,13 @@ function RecipeDetails() {
                 >
                   {meal.strInstructions}
                 </p>
+                <div
+                  data-testid="video"
+                >
+                  <ReactPlayer
+                    url={ meal.strYoutube }
+                  />
+                </div>
               </div>))}
           </div>
         )
@@ -112,6 +121,7 @@ function RecipeDetails() {
                    </h1>
                    <span data-testid="recipe-category">
                      {drink.strCategory}
+                     {drink.strAlcoholic}
                    </span>
                    <img
                      src={ drink.strDrinkThumb }
@@ -133,6 +143,13 @@ function RecipeDetails() {
                    >
                      {drink.strInstructions}
                    </p>
+                   <div
+                     data-testid="video"
+                   >
+                     <ReactPlayer
+                       url={ drink.strYoutube }
+                     />
+                   </div>
                  </div>))}
              </div>
            )
