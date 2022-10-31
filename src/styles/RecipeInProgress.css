@@ -1,0 +1,7 @@
+.checkbox input:checked {
+  text-decoration: line-through solid black;
+}
+
+.checkedClass {
+  text-decoration: line-through solid black;
+}
