@@ -86,39 +86,63 @@ function RecipeInProgress() {
     setPath, setRecipeInProgress]);
 
   const handleChangeCheck = ({ target }) => {
-    const { checked, name } = target;
+    const { checked, name, value } = target;
     if (checked) {
       const labelActual = document.getElementById(name);
       labelActual.classList.add('checkedClass');
       if (isMealInProgress) {
-        const previous = ingredientsUsedList.meals[id];
-        const newIngredientsUsedList = ingredientsUsedList;
-        const modifiedIdIngredientsList = [...previous, name];
-        newIngredientsUsedList.meals[id] = modifiedIdIngredientsList;
-        localStorage.setItem('inProgressRecipes', newIngredientsUsedList);
-      } else {
+        if (ingredientsUsedList.length > 0) {
+          const previous = ingredientsUsedList.meals[id];
+          const newIngredientsUsedList = JSON.parse(JSON.stringify(ingredientsUsedList));
+          const modifiedIdIngredientsList = [...previous, value];
+          newIngredientsUsedList.meals[id] = modifiedIdIngredientsList;
+          localStorage.setItem('inProgressRecipes', JSON
+            .stringify(newIngredientsUsedList));
+        } else {
+          const store = {
+            meals: {
+              [id]: [value],
+            },
+          };
+          localStorage.setItem('inProgressRecipes', JSON.stringify(store));
+        }
+      } else if (ingredientsUsedList.length > 0) {
         const previous = ingredientsUsedList.drinks[id];
-        const newIngredientsUsedList = ingredientsUsedList;
-        const modifiedIdIngredientsList = [...previous, name];
-        newIngredientsUsedList.meals[id] = modifiedIdIngredientsList;
-        localStorage.setItem('inProgressRecipes', newIngredientsUsedList);
+        const newIngredientsUsedList = JSON.parse(JSON.stringify(ingredientsUsedList));
+        const modifiedIdIngredientsList = [...previous, value];
+        newIngredientsUsedList.drinks[id] = modifiedIdIngredientsList;
+        localStorage.setItem('inProgressRecipes', JSON
+          .stringify(newIngredientsUsedList));
+      } else {
+        const store = {
+          drinks: {
+            [id]: [value],
+          },
+        };
+        localStorage.setItem('inProgressRecipes', JSON.stringify(store));
       }
     }
   };
 
   useEffect(() => {
-    const ingreList = localStorage.getItem('inProgressRecipes');
-    setIngredientsUsedList(ingreList);
+    const ingreList = JSON.parse(localStorage.getItem('inProgressRecipes'));
     const checkedList = [];
-    ingredients.forEach((ingred) => {
-      if (ingredientsUsedList.find((item) => ingred === item)) {
-        checkedList.push(true);
-      } else {
-        checkedList.push(false);
-      }
-    });
+    if (isMealInProgress && ingreList?.meals[id]) {
+      setIngredientsUsedList(ingreList.meals[id]);
+    } else if (!isMealInProgress && ingreList?.drinks) {
+      setIngredientsUsedList(ingreList.drinks[id]);
+    }
+    if (ingredients) {
+      ingredients.forEach((ingred) => {
+        if (ingredientsUsedList.find((item) => ingred === item)) {
+          checkedList.push(true);
+        } else {
+          checkedList.push(false);
+        }
+      });
+    }
     setIsIngredientUsedList(checkedList);
-  }, []);
+  }, [ingredients]);
 
   return (
     <div>
@@ -141,7 +165,7 @@ function RecipeInProgress() {
               <h4 data-testid="recipe-category">{item.strCategory}</h4>
               <p
                 data-testid="instructions"
-                style={ { 'font-size': '10px' } }
+                style={ { fontSize: '10px' } }
               >
                 {item.strInstructions}
               </p>
@@ -149,6 +173,8 @@ function RecipeInProgress() {
                 ingredients?.map((ing, index) => (
                   <div key={ index }>
                     <label
+                      className={ isIngredientUsedList[index]
+                        ? 'checkedClass' : undefined }
                       htmlFor={ `${index}-ingredient-step` }
                       id={ `${index}-ingredient-step` }
                       data-testid={ `${index}-ingredient-step` }
@@ -157,7 +183,10 @@ function RecipeInProgress() {
                       <input
                         type="checkbox"
                         name={ `${index}-ingredient-step` }
+                        checked={ isIngredientUsedList[index]
+                          ? 'checked' : null }
                         onChange={ handleChangeCheck }
+                        value={ ing }
                       />
                     </label>
                   </div>
@@ -189,7 +218,9 @@ function RecipeInProgress() {
                 ingredients?.map((ingr, index) => (
                   <div key={ index }>
                     <label
-                      htmlFor={ `${index}ingredient-step` }
+                      className={ isIngredientUsedList[index]
+                        ? 'checkedClass' : undefined }
+                      htmlFor={ `${index}-ingredient-step` }
                       id={ `${index}-ingredient-step` }
                       data-testid={ `${index}-ingredient-step` }
                     >
@@ -197,7 +228,10 @@ function RecipeInProgress() {
                       <input
                         type="checkbox"
                         name={ `${index}-ingredient-step` }
+                        checked={ isIngredientUsedList[index]
+                          ? 'checked' : null }
                         onChange={ handleChangeCheck }
+                        value={ ingr }
                       />
                     </label>
                   </div>
