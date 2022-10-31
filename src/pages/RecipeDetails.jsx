@@ -5,6 +5,7 @@ import ReactPlayer from 'react-player';
 function RecipeDetails() {
   const [recipe, setRecipe] = useState();
   const [coisas, setCoisas] = useState();
+  const [recomendation, setRecomendation] = useState();
   const { pathname } = useLocation();
   // const history = useHistory();
 
@@ -23,16 +24,22 @@ function RecipeDetails() {
         const response = await fetch((`${MEALS_ENDPOINT}${id}`));
         const result = await response.json();
         setRecipe(result.meals);
+        const a = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+        const b = await a.json();
+        setRecomendation(b);
       }
       if (pathname === `/drinks/${id}`) {
         const response = await fetch((`${DRINK_ENDPOINT}${id}`));
         const result = await response.json();
         setRecipe(result.drinks);
+        const c = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+        const d = await c.json();
+        setRecomendation(d);
       }
     };
     fetchApi();
   }, [id, pathname]);
-
+  console.log(recomendation);
   useEffect(() => {
     const coisasFilter = async () => {
       const ingre = [];
