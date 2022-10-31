@@ -1,15 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import AppContext from '../context/AppContext';
 import '../styles/RecipeInProgress.css';
+import RecipeInProgressCard from '../components/RecipeInProgressCard';
 
 function RecipeInProgress() {
   const { recipeInProgress, setRecipeInProgress, path, setPath, isMealInProgress,
-    setIsMealInProgress, isDrinkInProgress, ingredients, setIngredients, /* measures, */
-    setIsDrinkInProgress, setMeasures } = useContext(AppContext);
-
-  const [ingredientsUsedList, setIngredientsUsedList] = useState([]);
-  const [isIngredientUsedList, setIsIngredientUsedList] = useState([]);
+    setIsMealInProgress, ingredients, setIngredients,
+    setIsDrinkInProgress, setMeasures, ingredientsUsedList, setIngredientsUsedList,
+    setIsIngredientUsedList, /* isIngredientUsedList, isDrinkInProgress, measures, */
+  } = useContext(AppContext);
 
   const { pathname } = useLocation();
   const { id } = useParams();
@@ -146,101 +146,7 @@ function RecipeInProgress() {
 
   return (
     <div>
-      {
-        (isMealInProgress) && (
-          recipeInProgress?.map((item) => (
-            <div key={ item.idMeal }>
-              <p data-testid="recipe-title">{item.strMeal}</p>
-              <button type="button" data-testid="share-btn">Share</button>
-              <button type="button" data-testid="favorite-btn">Favorite</button>
-              <button type="button" data-testid="finish-recipe-btn">Finish</button>
-              <div>
-                <img
-                  style={ { width: '100px', height: '100px' } }
-                  src={ item.strMealThumb }
-                  alt={ item.strMeal }
-                  data-testid="recipe-photo"
-                />
-              </div>
-              <h4 data-testid="recipe-category">{item.strCategory}</h4>
-              <p
-                data-testid="instructions"
-                style={ { fontSize: '10px' } }
-              >
-                {item.strInstructions}
-              </p>
-              {
-                ingredients?.map((ing, index) => (
-                  <div key={ index }>
-                    <label
-                      className={ isIngredientUsedList[index]
-                        ? 'checkedClass' : undefined }
-                      htmlFor={ `${index}-ingredient-step` }
-                      id={ `${index}-ingredient-step` }
-                      data-testid={ `${index}-ingredient-step` }
-                    >
-                      {ing}
-                      <input
-                        type="checkbox"
-                        name={ `${index}-ingredient-step` }
-                        checked={ isIngredientUsedList[index]
-                          ? 'checked' : null }
-                        onChange={ handleChangeCheck }
-                        value={ ing }
-                      />
-                    </label>
-                  </div>
-                ))
-              }
-            </div>
-          ))
-        )
-      }
-      {
-        (isDrinkInProgress) && (
-          recipeInProgress?.map((item) => (
-            <div key={ item.idDrink }>
-              <h2 data-testid="recipe-title">{item.strDrink}</h2>
-              <button type="button" data-testid="share-btn">Share</button>
-              <button type="button" data-testid="favorite-btn">Favorite</button>
-              <button type="button" data-testid="finish-recipe-btn">Finish</button>
-              <div>
-                <img
-                  style={ { width: '200px', height: '210px' } }
-                  src={ item.strDrinkThumb }
-                  alt={ item.strDrink }
-                  data-testid="recipe-photo"
-                />
-              </div>
-              <h4 data-testid="recipe-category">{item.strCategory}</h4>
-              <p data-testid="instructions">{item.strCategory}</p>
-              {
-                ingredients?.map((ingr, index) => (
-                  <div key={ index }>
-                    <label
-                      className={ isIngredientUsedList[index]
-                        ? 'checkedClass' : undefined }
-                      htmlFor={ `${index}-ingredient-step` }
-                      id={ `${index}-ingredient-step` }
-                      data-testid={ `${index}-ingredient-step` }
-                    >
-                      {ingr}
-                      <input
-                        type="checkbox"
-                        name={ `${index}-ingredient-step` }
-                        checked={ isIngredientUsedList[index]
-                          ? 'checked' : null }
-                        onChange={ handleChangeCheck }
-                        value={ ingr }
-                      />
-                    </label>
-                  </div>
-                ))
-              }
-            </div>
-          ))
-        )
-      }
+      <RecipeInProgressCard handleChangeCheck={ handleChangeCheck } />
     </div>
   );
 }
