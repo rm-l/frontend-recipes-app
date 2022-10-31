@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 
 function RecipeDetails() {
   const [recipe, setRecipe] = useState();
-  const [ingredients, setIngredients] = useState;
+  const [coisas, setCoisas] = useState();
   const { pathname } = useLocation();
   // const history = useHistory();
 
@@ -32,26 +32,40 @@ function RecipeDetails() {
     fetchApi();
   }, [id, pathname]);
 
-  const ingredientsFilter = () => {
-    const ingre = [];
-    const recipeEntries = Object.entries(recipe);
-    for (let i = 0; i < recipeEntries.length; i += 1) {
-      if (recipeEntries[i][0].includes('strIngredient') && recipeEntries[i][1] !== ''
-          && recipeEntries[i][1] !== null) {
-        ingre.push(recipeEntries[i][1]);
+  useEffect(() => {
+    const coisasFilter = async () => {
+      const ingre = [];
+      const measure = [];
+      const recipeEntries = Object.entries(recipe[0]);
+      for (let i = 0; i < recipeEntries.length; i += 1) {
+        if (recipeEntries[i][0].includes('strIngredient') && recipeEntries[i][1] !== ''
+              && recipeEntries[i][1] !== null) {
+          ingre.push(recipeEntries[i][1]);
+        }
+        if (recipeEntries[i][0].includes('strMeasure') && recipeEntries[i][1] !== ' '
+        && recipeEntries[i][1] !== null) {
+          measure.push(recipeEntries[i][1]);
+        }
       }
-    }
-    setIngredients(ingre);
-  };
 
-  console.log(ingredients);
+      const itens = ingre.map((item, index) => ({
+        ingredientes: item,
+        medidas: measure[index],
+      }));
+      setCoisas(itens);
+    };
+
+    coisasFilter();
+  }, [recipe]);
+
+  console.log(coisas);
 
   return (
     <div data-testid="recipe-details">
       {
         (pathname === `/meals/${id}`) && (
           <div>
-            {console.log(recipe)}
+            {/* {console.log(recipe)} */}
             {recipe?.map((meal) => (
               <div key={ meal.strMeal }>
                 <h1 data-testid="recipe-title">
@@ -65,16 +79,21 @@ function RecipeDetails() {
                   alt={ meal.strMeal }
                   data-testid="recipe-photo"
                 />
-                {/* <span data-testid={ `${i}-ingredient-name-and-measure` }>
-                  {
-                    `
-                    ${meal.strIngredient1} -
-                    ${meal.strMeasure1}`
-                  }
-                  <br />
-                </span> */}
-                <p data-testid="instructions">{meal.strInstructions}</p>
-
+                <ul>
+                  {coisas?.map((iten, index) => (
+                    <li
+                      key={ index }
+                      data-testid={ `${index}-ingredient-name-and-measure` }
+                    >
+                      {`${iten.ingredientes} - ${iten.medidas}`}
+                    </li>
+                  ))}
+                </ul>
+                <p
+                  data-testid="instructions"
+                >
+                  {meal.strInstructions}
+                </p>
               </div>))}
           </div>
         )
@@ -83,15 +102,38 @@ function RecipeDetails() {
         (pathname === `/drinks/${id}`)
            && (
              <div>
-               {console.log(recipe.strDrink)}
-
-               {/* <h1>{recipe.strDrink}</h1> */}
-               { /* <p data-testid={ `${indexD}-card-name` }>{drink.strDrink}</p>
-               <img
-                 src={ drink.strDrinkThumb }
-                 alt={ drink.strDrink }
-                 data-testid={ `${indexD}-card-img` }
-               /> */}
+               {/* {console.log(recipe)} */}
+               {recipe?.map((drink) => (
+                 <div key={ drink.strDrink }>
+                   <h1
+                     data-testid="recipe-title"
+                   >
+                     {drink.strDrink}
+                   </h1>
+                   <span data-testid="recipe-category">
+                     {drink.strCategory}
+                   </span>
+                   <img
+                     src={ drink.strDrinkThumb }
+                     alt={ drink.strDrink }
+                     data-testid="recipe-photo"
+                   />
+                   <ul>
+                     {coisas?.map((iten, index) => (
+                       <li
+                         key={ index }
+                         data-testid={ `${index}-ingredient-name-and-measure` }
+                       >
+                         {`${iten.ingredientes} - ${iten.medidas}`}
+                       </li>
+                     ))}
+                   </ul>
+                   <p
+                     data-testid="instructions"
+                   >
+                     {drink.strInstructions}
+                   </p>
+                 </div>))}
              </div>
            )
       }
