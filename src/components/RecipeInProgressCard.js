@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
@@ -19,6 +19,13 @@ function RecipeInProgressCard({ handleChangeCheck }) {
 
   const { id } = useParams();
 
+  useEffect(() => {
+    const fave = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (fave !== null && fave?.find((item) => item.id === id)) {
+      setIsFavorite(true);
+    }
+  }, [id]);
+
   const handleClickShare = () => {
     setIsCopied(true);
     if (isMealInProgress) {
@@ -35,8 +42,8 @@ function RecipeInProgressCard({ handleChangeCheck }) {
     const favoriteMeal = {
       id,
       type: 'meal',
-      nationality: recipeInProgress[0].strArea,
-      category: recipeInProgress[0].strCategory,
+      nationality: recipeInProgress[0].strArea || '',
+      category: recipeInProgress[0].strCategory || '',
       alcoholicOrNot: '',
       name: recipeInProgress[0].strMeal,
       image: recipeInProgress[0].strMealThumb,
@@ -62,8 +69,8 @@ function RecipeInProgressCard({ handleChangeCheck }) {
     const favoriteDrink = {
       id,
       type: 'drink',
-      nationality: recipeInProgress[0].strArea,
-      category: recipeInProgress[0].strCategory,
+      nationality: recipeInProgress[0].strArea || '',
+      category: recipeInProgress[0].strCategory || '',
       alcoholicOrNot: recipeInProgress[0].strAlcoholic,
       name: recipeInProgress[0].strDrink,
       image: recipeInProgress[0].strDrinkThumb,
