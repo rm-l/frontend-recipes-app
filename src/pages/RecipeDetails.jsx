@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 
 function RecipeDetails() {
@@ -7,7 +7,6 @@ function RecipeDetails() {
   const [coisas, setCoisas] = useState();
   const [recomendation, setRecomendation] = useState();
   const { pathname } = useLocation();
-  // const history = useHistory();
 
   const MEALS_ENDPOINT = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
   const DRINK_ENDPOINT = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
@@ -67,14 +66,11 @@ function RecipeDetails() {
     coisasFilter();
   }, [recipe]);
 
-  // console.log(coisas);
-
   return (
     <div data-testid="recipe-details">
       {
         (pathname === `/meals/${id}`) && (
           <div>
-            {/* {console.log(recipe)} */}
             {recipe?.map((meal) => (
               <div key={ meal.strMeal }>
                 <h1 data-testid="recipe-title">
@@ -88,6 +84,18 @@ function RecipeDetails() {
                   alt={ meal.strMeal }
                   data-testid="recipe-photo"
                 />
+                <button
+                  type="button"
+                  data-testid="favorite-btn"
+                >
+                  Favorite
+                </button>
+                <button
+                  type="button"
+                  data-testid="share-btn"
+                >
+                  share
+                </button>
                 <ul>
                   {coisas?.map((iten, index) => (
                     <li
@@ -111,6 +119,18 @@ function RecipeDetails() {
                   />
                 </div>
               </div>))}
+            <Link to={ `/meals/${id}/in-progress` }>
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                style={ {
+                  position: 'fixed',
+                  bottom: 0,
+                } }
+              >
+                Start Recipe
+              </button>
+            </Link>
           </div>
         )
       }
@@ -135,6 +155,18 @@ function RecipeDetails() {
                      alt={ drink.strDrink }
                      data-testid="recipe-photo"
                    />
+                   <button
+                     type="button"
+                     data-testid="favorite-btn"
+                   >
+                     Favorite
+                   </button>
+                   <button
+                     type="button"
+                     data-testid="share-btn"
+                   >
+                     share
+                   </button>
                    <ul>
                      {coisas?.map((iten, index) => (
                        <li
@@ -158,6 +190,18 @@ function RecipeDetails() {
                      />
                    </div>
                  </div>))}
+               <Link to={ `/drinks/${id}/in-progress` }>
+                 <button
+                   type="button"
+                   data-testid="start-recipe-btn"
+                   style={ {
+                     position: 'fixed',
+                     bottom: 0,
+                   } }
+                 >
+                   Start Recipe
+                 </button>
+               </Link>
              </div>
            )
       }
