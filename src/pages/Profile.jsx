@@ -1,9 +1,28 @@
+// @ts-nocheck
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem('user'));
+  const history = useHistory();
+
+  const handleClickDoneRecipes = () => {
+    const doneRecipes = 'done-recipes';
+    history.push(doneRecipes);
+  };
+
+  const handleClickFavoriteRecipes = () => {
+    const favoriteRecipes = 'favorite-recipes';
+    history.push(favoriteRecipes);
+  };
+
+  const handleClickLogout = () => {
+    localStorage.clear();
+    const logout = '/';
+    history.push(logout);
+  };
 
   return (
     <div>
@@ -19,6 +38,7 @@ function Profile() {
         <button
           type="button"
           data-testid="profile-done-btn"
+          onClick={ handleClickDoneRecipes }
         >
           Done Recipes
         </button>
@@ -26,13 +46,15 @@ function Profile() {
         <button
           type="button"
           data-testid="profile-favorite-btn"
+          onClick={ handleClickFavoriteRecipes }
         >
-          Receitas Favoritas
+          Favorite Recipes
         </button>
         {' '}
         <button
           type="button"
           data-testid="profile-logout-btn"
+          onClick={ handleClickLogout }
         >
           Logout
         </button>
