@@ -25,6 +25,9 @@ function Provider({ children }) {
   const [isDrinkInProgress, setIsDrinkInProgress] = useState(false);
   const [ingredients, setIngredients] = useState([]);
   const [measures, setMeasures] = useState([]);
+  const [ingredientsUsedList, setIngredientsUsedList] = useState([]);
+  const [isIngredientUsedList, setIsIngredientUsedList] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   const contextValue = useMemo(() => ({
     email,
@@ -71,13 +74,28 @@ function Provider({ children }) {
     setIngredients,
     measures,
     setMeasures,
+    ingredientsUsedList,
+    setIngredientsUsedList,
+    isIngredientUsedList,
+    setIsIngredientUsedList,
   }), [email, password, isDisabled, path, pageName, isPerfilIcon, isSearchIcon,
     isSearchPressed, radioSearch, inputSearch, mealsList, drinksList, isMultipleMeals,
     isMultipleDrinks, mealCategories, drinkCategories, isFiltered, recipeInProgress,
-    isMealInProgress, isDrinkInProgress, ingredients, measures]);
+    isMealInProgress, isDrinkInProgress, ingredients, measures, ingredientsUsedList,
+    isIngredientUsedList]);
+
+  const secondContext = useMemo(() => ({
+    favorites,
+    setFavorites,
+  }), [favorites]);
+
+  const principalContext = useMemo(
+    () => ({ ...contextValue, ...secondContext }),
+    [contextValue, secondContext],
+  );
 
   return (
-    <AppContext.Provider value={ contextValue }>
+    <AppContext.Provider value={ principalContext }>
       {children}
     </AppContext.Provider>
   );
