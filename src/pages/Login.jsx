@@ -40,7 +40,7 @@ function Login() {
         onChange={ handleChangeEmail }
       />
       <input
-        type="text"
+        type="password"
         name="password-input"
         id="password-input"
         data-testid="password-input"

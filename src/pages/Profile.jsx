@@ -7,6 +7,32 @@ function Profile() {
     <div>
       <Header />
       <Footer />
+      <div>
+        <p data-testid="profile-email">
+          E-mail:
+        </p>
+        {' '}
+        <button
+          type="button"
+          data-testid="profile-done-btn"
+        >
+          Done Recipes
+        </button>
+        {' '}
+        <button
+          type="button"
+          data-testid="profile-favorite-btn"
+        >
+          Receitas Favoritas
+        </button>
+        {' '}
+        <button
+          type="button"
+          data-testid="profile-logout-btn"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 }
