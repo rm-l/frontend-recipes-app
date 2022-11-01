@@ -165,9 +165,38 @@ function RecipeInProgress() {
     checkCanFinish();
   }, [ingredients, ingredientsUsedList]);
 
+  const handleClickFinish = () => {
+    const oldDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
+    const momentDate = new Date();
+    const tags = recipeInProgress[0].strTags?.split(',');
+    const isTag = Boolean(tags);
+    const newDoneRecipe = {
+      id,
+      type: isMealInProgress ? 'meal' : 'drink',
+      nationality: recipeInProgress[0].strArea || '',
+      category: recipeInProgress[0].strCategory || '',
+      alcoholicOrNot: recipeInProgress[0].strAlcoholic || '',
+      name: isMealInProgress ? recipeInProgress[0].strMeal : recipeInProgress[0].strDrink,
+      image: isMealInProgress ? recipeInProgress[0].strMealThumb
+        : recipeInProgress[0].strDrinkThumb,
+      doneDate: momentDate.toISOString(),
+      tags: isTag ? [...tags] : [],
+    };
+    if (oldDoneRecipes) {
+      const newDoneRecipes = [...oldDoneRecipes, newDoneRecipe];
+      localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipes));
+    } else {
+      const newDoneRecipes = [newDoneRecipe];
+      localStorage.setItem('doneRecipes', JSON.stringify(newDoneRecipes));
+    }
+  };
+
   return (
     <div>
-      <RecipeInProgressCard handleChangeCheck={ handleChangeCheck } />
+      <RecipeInProgressCard
+        handleChangeCheck={ handleChangeCheck }
+        handleClickFinish={ handleClickFinish }
+      />
     </div>
   );
 }

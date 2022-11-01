@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
 import AppContext from '../context/AppContext';
 import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
-function RecipeInProgressCard({ handleChangeCheck }) {
+function RecipeInProgressCard({ handleChangeCheck, handleClickFinish }) {
   const { recipeInProgress, ingredients, isMealInProgress, isIngredientUsedList,
     isDrinkInProgress, isFinishDisabled } = useContext(AppContext);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -112,14 +112,17 @@ function RecipeInProgressCard({ handleChangeCheck }) {
                   data-testid="favorite-btn"
                 />
               </button>
-              <button
-                type="button"
-                data-testid="finish-recipe-btn"
-                style={ { bottom: '60px', position: 'fixed' } }
-                disabled={ isFinishDisabled }
-              >
-                Finish
-              </button>
+              <Link to="/done-recipes">
+                <button
+                  type="button"
+                  data-testid="finish-recipe-btn"
+                  style={ { bottom: '60px', position: 'fixed' } }
+                  disabled={ isFinishDisabled }
+                  onClick={ handleClickFinish }
+                >
+                  Finish
+                </button>
+              </Link>
               <div>
                 <img
                   style={ { width: '100px', height: '100px' } }
@@ -150,9 +153,10 @@ function RecipeInProgressCard({ handleChangeCheck }) {
                         type="checkbox"
                         name={ `${index}-ingredient-step` }
                         checked={ isIngredientUsedList[index]
-                          ? 'checked' : null }
+                          ? 'checked' : false }
                         onChange={ ({ target }) => handleChangeCheck(target, index) }
                         value={ ing }
+                        data-testid={ `${index}-ingredient-step-check` }
                       />
                     </label>
                   </div>
@@ -184,14 +188,17 @@ function RecipeInProgressCard({ handleChangeCheck }) {
                   data-testid="favorite-btn"
                 />
               </button>
-              <button
-                type="button"
-                data-testid="finish-recipe-btn"
-                style={ { bottom: '60px', position: 'fixed' } }
-                disabled={ isFinishDisabled }
-              >
-                Finish
-              </button>
+              <Link to="/done-recipes">
+                <button
+                  type="button"
+                  data-testid="finish-recipe-btn"
+                  style={ { bottom: '60px', position: 'fixed' } }
+                  disabled={ isFinishDisabled }
+                  onClick={ handleClickFinish }
+                >
+                  Finish
+                </button>
+              </Link>
               <div>
                 <img
                   style={ { width: '200px', height: '210px' } }
@@ -217,9 +224,10 @@ function RecipeInProgressCard({ handleChangeCheck }) {
                         type="checkbox"
                         name={ `${index}-ingredient-step` }
                         checked={ isIngredientUsedList[index]
-                          ? 'checked' : null }
+                          ? 'checked' : false }
                         onChange={ ({ target }) => handleChangeCheck(target, index) }
                         value={ ingr }
+                        data-testid={ `${index}-ingredient-step-check` }
                       />
                     </label>
                   </div>
@@ -235,6 +243,6 @@ function RecipeInProgressCard({ handleChangeCheck }) {
 
 RecipeInProgressCard.propTypes = {
   handleChangeCheck: PropTypes.func.isRequired,
+  handleClickFinish: PropTypes.func.isRequired,
 };
-
 export default RecipeInProgressCard;
