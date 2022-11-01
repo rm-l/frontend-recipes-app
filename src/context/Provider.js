@@ -28,6 +28,7 @@ function Provider({ children }) {
   const [ingredientsUsedList, setIngredientsUsedList] = useState([]);
   const [isIngredientUsedList, setIsIngredientUsedList] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [isFinishDisabled, setIsFinishDisabled] = useState(true);
 
   const contextValue = useMemo(() => ({
     email,
@@ -87,7 +88,9 @@ function Provider({ children }) {
   const secondContext = useMemo(() => ({
     favorites,
     setFavorites,
-  }), [favorites]);
+    isFinishDisabled,
+    setIsFinishDisabled,
+  }), [favorites, isFinishDisabled]);
 
   const principalContext = useMemo(
     () => ({ ...contextValue, ...secondContext }),

@@ -7,16 +7,10 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function RecipeInProgressCard({ handleChangeCheck }) {
-  const { recipeInProgress, ingredients, isMealInProgress,
-    /* setIsMealInProgress,  setIngredients, setRecipeInProgress, path, setPath,
-    setIsDrinkInProgress, setMeasures, ingredientsUsedList, setIngredientsUsedList,
-    setIsIngredientUsedList, measures, */ isIngredientUsedList, isDrinkInProgress,
-    /* favorites, setFavorites, */
-  } = useContext(AppContext);
-
+  const { recipeInProgress, ingredients, isMealInProgress, isIngredientUsedList,
+    isDrinkInProgress, isFinishDisabled } = useContext(AppContext);
   const [isFavorite, setIsFavorite] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-
   const { id } = useParams();
 
   useEffect(() => {
@@ -92,9 +86,7 @@ function RecipeInProgressCard({ handleChangeCheck }) {
   };
 
   const handleClickFavorite = () => {
-    if (isMealInProgress) {
-      mealFavoriteStorage();
-    } else {
+    if (isMealInProgress) { mealFavoriteStorage(); } else {
       drinkFavoriteStorage();
     }
   };
@@ -113,17 +105,21 @@ function RecipeInProgressCard({ handleChangeCheck }) {
               >
                 { isCopied ? 'Link copied!' : 'Share'}
               </button>
-              <button
-                type="button"
-                onClick={ handleClickFavorite }
-              >
+              <button type="button" onClick={ handleClickFavorite }>
                 <img
                   src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
                   alt=""
                   data-testid="favorite-btn"
                 />
               </button>
-              <button type="button" data-testid="finish-recipe-btn">Finish</button>
+              <button
+                type="button"
+                data-testid="finish-recipe-btn"
+                style={ { bottom: '60px', position: 'fixed' } }
+                disabled={ isFinishDisabled }
+              >
+                Finish
+              </button>
               <div>
                 <img
                   style={ { width: '100px', height: '100px' } }
@@ -155,7 +151,7 @@ function RecipeInProgressCard({ handleChangeCheck }) {
                         name={ `${index}-ingredient-step` }
                         checked={ isIngredientUsedList[index]
                           ? 'checked' : null }
-                        onChange={ handleChangeCheck }
+                        onChange={ ({ target }) => handleChangeCheck(target, index) }
                         value={ ing }
                       />
                     </label>
@@ -188,7 +184,14 @@ function RecipeInProgressCard({ handleChangeCheck }) {
                   data-testid="favorite-btn"
                 />
               </button>
-              <button type="button" data-testid="finish-recipe-btn">Finish</button>
+              <button
+                type="button"
+                data-testid="finish-recipe-btn"
+                style={ { bottom: '60px', position: 'fixed' } }
+                disabled={ isFinishDisabled }
+              >
+                Finish
+              </button>
               <div>
                 <img
                   style={ { width: '200px', height: '210px' } }
@@ -215,7 +218,7 @@ function RecipeInProgressCard({ handleChangeCheck }) {
                         name={ `${index}-ingredient-step` }
                         checked={ isIngredientUsedList[index]
                           ? 'checked' : null }
-                        onChange={ handleChangeCheck }
+                        onChange={ ({ target }) => handleChangeCheck(target, index) }
                         value={ ingr }
                       />
                     </label>

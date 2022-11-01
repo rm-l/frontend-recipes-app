@@ -8,7 +8,7 @@ function RecipeInProgress() {
   const { recipeInProgress, setRecipeInProgress, path, setPath, isMealInProgress,
     setIsMealInProgress, ingredients, setIngredients,
     setIsDrinkInProgress, setMeasures, ingredientsUsedList, setIngredientsUsedList,
-    setIsIngredientUsedList, /* isIngredientUsedList, isDrinkInProgress, measures, */
+    setIsIngredientUsedList, isIngredientUsedList, setIsFinishDisabled,
   } = useContext(AppContext);
 
   const { pathname } = useLocation();
@@ -85,64 +85,85 @@ function RecipeInProgress() {
   }, [id, isMealInProgress, path, pathname, setIsDrinkInProgress, setIsMealInProgress,
     setPath, setRecipeInProgress]);
 
-  const handleChangeCheck = ({ target }) => {
-    const { checked, name, value } = target;
-    if (checked) {
-      const labelActual = document.getElementById(name);
+  const checkCanFinish = () => {
+    if (!isIngredientUsedList.some((item) => item === false)) {
+      setIsFinishDisabled(false);
+    } else { setIsFinishDisabled(true); }
+  };
+
+  const isMealIngredientChecked = (value, name, index) => {
+    let newList;
+    const labelActual = document.getElementById(name);
+    if (ingredientsUsedList.includes(value)) {
+      newList = ingredientsUsedList.filter((item) => item !== value);
+      labelActual.classList.remove('checkedClass');
+      isIngredientUsedList[index] = false;
+    } else if (!ingredientsUsedList.includes(value)) {
+      newList = [...ingredientsUsedList, value];
       labelActual.classList.add('checkedClass');
-      if (isMealInProgress) {
-        if (ingredientsUsedList.length > 0) {
-          const previous = ingredientsUsedList.meals[id];
-          const newIngredientsUsedList = JSON.parse(JSON.stringify(ingredientsUsedList));
-          const modifiedIdIngredientsList = [...previous, value];
-          newIngredientsUsedList.meals[id] = modifiedIdIngredientsList;
-          localStorage.setItem('inProgressRecipes', JSON
-            .stringify(newIngredientsUsedList));
-        } else {
-          const store = {
-            meals: {
-              [id]: [value],
-            },
-          };
-          localStorage.setItem('inProgressRecipes', JSON.stringify(store));
-        }
-      } else if (ingredientsUsedList.length > 0) {
-        const previous = ingredientsUsedList.drinks[id];
-        const newIngredientsUsedList = JSON.parse(JSON.stringify(ingredientsUsedList));
-        const modifiedIdIngredientsList = [...previous, value];
-        newIngredientsUsedList.drinks[id] = modifiedIdIngredientsList;
-        localStorage.setItem('inProgressRecipes', JSON
-          .stringify(newIngredientsUsedList));
-      } else {
-        const store = {
-          drinks: {
-            [id]: [value],
-          },
-        };
-        localStorage.setItem('inProgressRecipes', JSON.stringify(store));
-      }
+      isIngredientUsedList[index] = true;
     }
+    const store = {
+      meals: {
+        [id]: newList,
+      },
+    };
+    const ingreList = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    localStorage.setItem('inProgressRecipes', JSON
+      .stringify({ ...ingreList, ...store }));
+    setIngredientsUsedList(newList);
+  };
+
+  const isDrinkIngredientChecked = (value, name, index) => {
+    let newList;
+    const labelActual = document.getElementById(name);
+    if (ingredientsUsedList.includes(value)) {
+      newList = ingredientsUsedList.filter((item) => item !== value);
+      labelActual.classList.remove('checkedClass');
+      isIngredientUsedList[index] = false;
+    } else if (!ingredientsUsedList.includes(value)) {
+      newList = [...ingredientsUsedList, value];
+      labelActual.classList.add('checkedClass');
+      isIngredientUsedList[index] = true;
+    }
+    const store = {
+      drinks: {
+        [id]: newList,
+      },
+    };
+    const ingreList = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    localStorage.setItem('inProgressRecipes', JSON
+      .stringify({ ...ingreList, ...store }));
+    setIngredientsUsedList(newList);
+  };
+
+  const handleChangeCheck = (target, index) => {
+    const { name, value } = target;
+    if (isMealInProgress) {
+      isMealIngredientChecked(value, name, index);
+    } else {
+      isDrinkIngredientChecked(value, name, index);
+    }
+    checkCanFinish();
   };
 
   useEffect(() => {
     const ingreList = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const checkedList = [];
     if (isMealInProgress && ingreList?.meals[id]) {
       setIngredientsUsedList(ingreList.meals[id]);
     } else if (!isMealInProgress && ingreList?.drinks) {
       setIngredientsUsedList(ingreList.drinks[id]);
     }
+  }, [id, isMealInProgress, setIngredientsUsedList]);
+
+  useEffect(() => {
     if (ingredients) {
-      ingredients.forEach((ingred) => {
-        if (ingredientsUsedList.find((item) => ingred === item)) {
-          checkedList.push(true);
-        } else {
-          checkedList.push(false);
-        }
-      });
+      const checkedList = ingredients
+        .map((ingred) => ingredientsUsedList.includes(ingred));
+      setIsIngredientUsedList(checkedList);
     }
-    setIsIngredientUsedList(checkedList);
-  }, [ingredients]);
+    checkCanFinish();
+  }, [ingredients, ingredientsUsedList]);
 
   return (
     <div>
