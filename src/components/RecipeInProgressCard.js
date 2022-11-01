@@ -151,7 +151,7 @@ function RecipeInProgressCard({ handleChangeCheck }) {
                         name={ `${index}-ingredient-step` }
                         checked={ isIngredientUsedList[index]
                           ? 'checked' : null }
-                        onChange={ handleChangeCheck }
+                        onChange={ ({ target }) => handleChangeCheck(target, index) }
                         value={ ing }
                       />
                     </label>
@@ -218,7 +218,7 @@ function RecipeInProgressCard({ handleChangeCheck }) {
                         name={ `${index}-ingredient-step` }
                         checked={ isIngredientUsedList[index]
                           ? 'checked' : null }
-                        onChange={ handleChangeCheck }
+                        onChange={ ({ target }) => handleChangeCheck(target, index) }
                         value={ ingr }
                       />
                     </label>

@@ -86,99 +86,84 @@ function RecipeInProgress() {
     setPath, setRecipeInProgress]);
 
   const checkCanFinish = () => {
-    console.log('test');
-    console.log(isIngredientUsedList);
     if (!isIngredientUsedList.some((item) => item === false)) {
-      console.log('fim');
       setIsFinishDisabled(false);
     } else { setIsFinishDisabled(true); }
   };
 
-  const isMealIngredientChecked = (value, name) => {
+  const isMealIngredientChecked = (value, name, index) => {
     let newList;
-    if (ingredientsUsedList.includes((item) => item === value)) {
+    const labelActual = document.getElementById(name);
+    if (ingredientsUsedList.includes(value)) {
       newList = ingredientsUsedList.filter((item) => item !== value);
-      const labelActual = document.getElementById(name);
       labelActual.classList.remove('checkedClass');
-    } else if (!ingredientsUsedList.includes((item) => item === value)) {
+      isIngredientUsedList[index] = false;
+    } else if (!ingredientsUsedList.includes(value)) {
       newList = [...ingredientsUsedList, value];
-      const labelActual = document.getElementById(name);
       labelActual.classList.add('checkedClass');
-    } else {
-      newList = [value];
-      const labelActual = document.getElementById(name);
-      labelActual.classList.add('checkedClass');
+      isIngredientUsedList[index] = true;
     }
     const store = {
       meals: {
-        [id]: [newList],
+        [id]: newList,
       },
     };
     const ingreList = JSON.parse(localStorage.getItem('inProgressRecipes'));
     localStorage.setItem('inProgressRecipes', JSON
       .stringify({ ...ingreList, ...store }));
+    setIngredientsUsedList(newList);
   };
 
-  const isDrinkIngredientChecked = (value, name) => {
+  const isDrinkIngredientChecked = (value, name, index) => {
     let newList;
-    console.log(ingredientsUsedList);
     const labelActual = document.getElementById(name);
-    if (ingredientsUsedList.includes((item) => item === value)) {
+    if (ingredientsUsedList.includes(value)) {
       newList = ingredientsUsedList.filter((item) => item !== value);
       labelActual.classList.remove('checkedClass');
-    } else if (!ingredientsUsedList.includes((item) => item === value)) {
+      isIngredientUsedList[index] = false;
+    } else if (!ingredientsUsedList.includes(value)) {
       newList = [...ingredientsUsedList, value];
       labelActual.classList.add('checkedClass');
-    } else {
-      newList = [value];
-      labelActual.classList.add('checkedClass');
+      isIngredientUsedList[index] = true;
     }
     const store = {
       drinks: {
-        [id]: [newList],
+        [id]: newList,
       },
     };
     const ingreList = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const moment = { ...ingreList, ...store };
-    console.log(ingreList);
-    console.log(moment);
     localStorage.setItem('inProgressRecipes', JSON
       .stringify({ ...ingreList, ...store }));
+    setIngredientsUsedList(newList);
   };
 
-  const handleChangeCheck = ({ target }) => {
-    const { checked, name, value } = target;
-    if (checked) {
-      if (isMealInProgress) {
-        isMealIngredientChecked(value, name);
-      } else {
-        isDrinkIngredientChecked(value, name);
-      }
+  const handleChangeCheck = (target, index) => {
+    const { name, value } = target;
+    if (isMealInProgress) {
+      isMealIngredientChecked(value, name, index);
+    } else {
+      isDrinkIngredientChecked(value, name, index);
     }
     checkCanFinish();
   };
 
   useEffect(() => {
     const ingreList = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    const checkedList = [];
     if (isMealInProgress && ingreList?.meals[id]) {
       setIngredientsUsedList(ingreList.meals[id]);
     } else if (!isMealInProgress && ingreList?.drinks) {
-      console.log(ingreList);
       setIngredientsUsedList(ingreList.drinks[id]);
     }
+  }, [id, isMealInProgress, setIngredientsUsedList]);
+
+  useEffect(() => {
     if (ingredients) {
-      ingredients.forEach((ingred) => {
-        if (ingredientsUsedList.find((item) => ingred === item)) {
-          console.log('true');
-          checkedList.push(true);
-        } else {
-          checkedList.push(false);
-        }
-      });
+      const checkedList = ingredients
+        .map((ingred) => ingredientsUsedList.includes(ingred));
+      setIsIngredientUsedList(checkedList);
     }
-    setIsIngredientUsedList(checkedList);
-  }, [ingredients]);
+    checkCanFinish();
+  }, [ingredients, ingredientsUsedList]);
 
   return (
     <div>
