@@ -3,6 +3,8 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Profile() {
+  const user = JSON.parse(localStorage.getItem('user'));
+
   return (
     <div>
       <Header />
@@ -10,6 +12,8 @@ function Profile() {
       <div>
         <p data-testid="profile-email">
           E-mail:
+          {' '}
+          {user?.email}
         </p>
         {' '}
         <button
