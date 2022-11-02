@@ -1,13 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
+import copy from 'clipboard-copy';
 import CarouselCard from '../components/CarouselCard';
 import AppContext from '../context/AppContext';
+import shareIcon from '../images/shareIcon.svg';
 
 function RecipeDetails() {
   const [recipe, setRecipe] = useState();
   const [coisas, setCoisas] = useState();
   const [isMeal, setIsMeal] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
   const [isInProgress, setIsInProgess] = useState(false);
   const { setRecomendation } = useContext(AppContext);
   const { pathname } = useLocation();
@@ -100,10 +103,14 @@ function RecipeDetails() {
                     Favorite
                   </button>
                   <button
+                    onClick={ () => {
+                      setIsCopied(true);
+                      copy(`http://localhost:3000${pathname}`);
+                    } }
                     type="button"
                     data-testid="share-btn"
                   >
-                    share
+                    {isCopied ? 'Link copied!' : shareIcon}
                   </button>
                   <ul>
                     {coisas?.map((iten, index) => (
@@ -164,10 +171,14 @@ function RecipeDetails() {
                        Favorite
                      </button>
                      <button
+                       onClick={ () => {
+                         setIsCopied(true);
+                         copy(`http://localhost:3000${pathname}`);
+                       } }
                        type="button"
                        data-testid="share-btn"
                      >
-                       share
+                       {isCopied ? 'Link copied!' : shareIcon}
                      </button>
                      <ul>
                        {coisas?.map((iten, index) => (
