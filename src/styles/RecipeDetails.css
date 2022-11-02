@@ -1,10 +1,12 @@
-@media (min-width: 768px) {
+@media ( min-width : 768px ) {
+
   .carousel-inner {
     display: flex;
   }
+
   .carousel-item {
     display: block;
-    flex: 0 0 33.333333%;
+    flex: 0 0 33.333%;
     margin-right: 0;
   }
 
@@ -14,18 +16,18 @@
   }
 }
 
-.carousel-inner > .item >img{
-  min-height : 300px;
+img {
+  min-height: 200px;
+  min-width: 200px;
+}
+
+.carousel-inner > .item > img {
   max-height : 300px;
+  min-height : 300px;
   width : 100%;
 }
 
 .carousel-item.active {
   min-height: 300px;
   min-width: 300px;
-}
-
-img {
-  min-height: 200px;
-  min-width: 200px;
 }
