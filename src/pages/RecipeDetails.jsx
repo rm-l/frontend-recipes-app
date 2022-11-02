@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import React, { useEffect, useState, useContext } from 'react';
+import { useLocation, useParams, Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
+import CarouselCard from '../components/CarouselCard';
+import AppContext from '../context/AppContext';
 
 function RecipeDetails() {
   const [recipe, setRecipe] = useState();
   const [coisas, setCoisas] = useState();
-  const [recomendation, setRecomendation] = useState();
+  const { recomendation, setRecomendation } = useContext(AppContext);
   const { pathname } = useLocation();
+  const { id } = useParams();
 
   const MEALS_ENDPOINT = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=';
   const DRINK_ENDPOINT = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
 
-  function pathnameId() {
-    const id = pathname.replace(/[^0-9]/g, '');
-    return parseInt(id, 10);
-  }
-  const id = pathnameId();
-
   useEffect(() => {
     const fetchApi = async () => {
+      const SIX = 6;
       if (pathname === `/meals/${id}`) {
         const response = await fetch((`${MEALS_ENDPOINT}${id}`));
         const result = await response.json();
         setRecipe(result.meals);
         const a = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
         const b = await a.json();
-        setRecomendation(b);
+        const c = b.drinks.filter((reco, index) => index < SIX);
+        setRecomendation(c);
+        console.log(recomendation);
       }
       if (pathname === `/drinks/${id}`) {
         const response = await fetch((`${DRINK_ENDPOINT}${id}`));
@@ -33,12 +33,13 @@ function RecipeDetails() {
         setRecipe(result.drinks);
         const c = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
         const d = await c.json();
-        setRecomendation(d);
+        const e = d.meals.filter((reco, index) => index < SIX);
+        setRecomendation(e);
       }
     };
     fetchApi();
   }, [id, pathname]);
-  console.log(recomendation);
+
   useEffect(() => {
     const coisasFilter = async () => {
       const ingre = [];
@@ -67,144 +68,130 @@ function RecipeDetails() {
   }, [recipe]);
 
   return (
-    <div data-testid="recipe-details">
-      {
-        (pathname === `/meals/${id}`) && (
-          <div>
-            {recipe?.map((meal) => (
-              <div key={ meal.strMeal }>
-                <h1 data-testid="recipe-title">
-                  {meal.strMeal}
-                </h1>
-                <span data-testid="recipe-category">
-                  {meal.strCategory}
-                </span>
-                <img
-                  src={ meal.strMealThumb }
-                  alt={ meal.strMeal }
-                  data-testid="recipe-photo"
-                />
-                <button
-                  type="button"
-                  data-testid="favorite-btn"
-                >
-                  Favorite
-                </button>
-                <button
-                  type="button"
-                  data-testid="share-btn"
-                >
-                  share
-                </button>
-                <ul>
-                  {coisas?.map((iten, index) => (
-                    <li
-                      key={ index }
-                      data-testid={ `${index}-ingredient-name-and-measure` }
-                    >
-                      {`${iten.ingredientes} - ${iten.medidas}`}
-                    </li>
-                  ))}
-                </ul>
-                <p
-                  data-testid="instructions"
-                >
-                  {meal.strInstructions}
-                </p>
-                <div
-                  data-testid="video"
-                >
-                  <ReactPlayer
-                    url={ meal.strYoutube }
+    <div>
+      <CarouselCard />
+      <div data-testid="recipe-details">
+        {
+          (pathname === `/meals/${id}`) && (
+            <div>
+              {recipe?.map((meal) => (
+                <div key={ meal.strMeal }>
+                  <h1 data-testid="recipe-title">{meal.strMeal}</h1>
+                  <span data-testid="recipe-category">
+                    {meal.strCategory}
+                  </span>
+                  <img
+                    style={ { width: '100px', height: '100px' } }
+                    src={ meal.strMealThumb }
+                    alt={ meal.strMeal }
+                    data-testid="recipe-photo"
                   />
-                </div>
-              </div>))}
-            <Link to={ `/meals/${id}/in-progress` }>
-              <button
-                type="button"
-                data-testid="start-recipe-btn"
-                style={ {
-                  position: 'fixed',
-                  bottom: 0,
-                } }
-              >
-                Start Recipe
-              </button>
-            </Link>
-          </div>
-        )
-      }
-      {
-        (pathname === `/drinks/${id}`)
-           && (
-             <div>
-               {/* {console.log(recipe)} */}
-               {recipe?.map((drink) => (
-                 <div key={ drink.strDrink }>
-                   <h1
-                     data-testid="recipe-title"
-                   >
-                     {drink.strDrink}
-                   </h1>
-                   <span data-testid="recipe-category">
-                     {drink.strCategory}
-                     {drink.strAlcoholic}
-                   </span>
-                   <img
-                     src={ drink.strDrinkThumb }
-                     alt={ drink.strDrink }
-                     data-testid="recipe-photo"
-                   />
-                   <button
-                     type="button"
-                     data-testid="favorite-btn"
-                   >
-                     Favorite
-                   </button>
-                   <button
-                     type="button"
-                     data-testid="share-btn"
-                   >
-                     share
-                   </button>
-                   <ul>
-                     {coisas?.map((iten, index) => (
-                       <li
-                         key={ index }
-                         data-testid={ `${index}-ingredient-name-and-measure` }
-                       >
-                         {`${iten.ingredientes} - ${iten.medidas}`}
-                       </li>
-                     ))}
-                   </ul>
-                   <p
-                     data-testid="instructions"
-                   >
-                     {drink.strInstructions}
-                   </p>
-                   <div
-                     data-testid="video"
-                   >
-                     <ReactPlayer
-                       url={ drink.strYoutube }
+                  <button type="button" data-testid="favorite-btn">
+                    Favorite
+                  </button>
+                  <button
+                    type="button"
+                    data-testid="share-btn"
+                  >
+                    share
+                  </button>
+                  <ul>
+                    {coisas?.map((iten, index) => (
+                      <li
+                        key={ index }
+                        data-testid={ `${index}-ingredient-name-and-measure` }
+                      >
+                        {`${iten.ingredientes} - ${iten.medidas}`}
+                      </li>
+                    ))}
+                  </ul>
+                  <p
+                    data-testid="instructions"
+                  >
+                    {meal.strInstructions}
+                  </p>
+                  <div
+                    data-testid="video"
+                  >
+                    <ReactPlayer
+                      url={ meal.strYoutube }
+                    />
+                  </div>
+                </div>))}
+              <Link to={ `/meals/${id}/in-progress` }>
+                <button
+                  type="button"
+                  data-testid="start-recipe-btn"
+                  style={ {
+                    position: 'fixed',
+                    bottom: 0,
+                  } }
+                >
+                  Start Recipe
+                </button>
+              </Link>
+            </div>
+          )
+        }
+        {
+          (pathname === `/drinks/${id}`)
+             && (
+               <div>
+                 {recipe?.map((drink) => (
+                   <div key={ drink.strDrink }>
+                     <h1 data-testid="recipe-title">{drink.strDrink}</h1>
+                     <span data-testid="recipe-category">
+                       {drink.strCategory}
+                       {drink.strAlcoholic}
+                     </span>
+                     <img
+                       style={ { width: '100px', height: '100px' } }
+                       src={ drink.strDrinkThumb }
+                       alt={ drink.strDrink }
+                       data-testid="recipe-photo"
                      />
-                   </div>
-                 </div>))}
-               <Link to={ `/drinks/${id}/in-progress` }>
-                 <button
-                   type="button"
-                   data-testid="start-recipe-btn"
-                   style={ {
-                     position: 'fixed',
-                     bottom: 0,
-                   } }
-                 >
-                   Start Recipe
-                 </button>
-               </Link>
-             </div>
-           )
-      }
+                     <button type="button" data-testid="favorite-btn">
+                       Favorite
+                     </button>
+                     <button
+                       type="button"
+                       data-testid="share-btn"
+                     >
+                       share
+                     </button>
+                     <ul>
+                       {coisas?.map((iten, index) => (
+                         <li
+                           key={ index }
+                           data-testid={ `${index}-ingredient-name-and-measure` }
+                         >
+                           {`${iten.ingredientes} - ${iten.medidas}`}
+                         </li>
+                       ))}
+                     </ul>
+                     <p data-testid="instructions">
+                       {drink.strInstructions}
+                     </p>
+                     <div data-testid="video">
+                       <ReactPlayer url={ drink.strYoutube } />
+                     </div>
+                   </div>))}
+                 <Link to={ `/drinks/${id}/in-progress` }>
+                   <button
+                     type="button"
+                     data-testid="start-recipe-btn"
+                     style={ {
+                       position: 'fixed',
+                       bottom: 0,
+                     } }
+                   >
+                     Start Recipe
+                   </button>
+                 </Link>
+               </div>
+             )
+        }
+      </div>
     </div>
   );
 }
