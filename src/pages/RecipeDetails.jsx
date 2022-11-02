@@ -7,7 +7,9 @@ import AppContext from '../context/AppContext';
 function RecipeDetails() {
   const [recipe, setRecipe] = useState();
   const [coisas, setCoisas] = useState();
-  const { recomendation, setRecomendation } = useContext(AppContext);
+  const [isMeal, setIsMeal] = useState(false);
+  const [isInProgress, setIsInProgess] = useState(false);
+  const { setRecomendation } = useContext(AppContext);
   const { pathname } = useLocation();
   const { id } = useParams();
 
@@ -25,7 +27,6 @@ function RecipeDetails() {
         const b = await a.json();
         const c = b.drinks.filter((reco, index) => index < SIX);
         setRecomendation(c);
-        console.log(recomendation);
       }
       if (pathname === `/drinks/${id}`) {
         const response = await fetch((`${DRINK_ENDPOINT}${id}`));
@@ -66,6 +67,15 @@ function RecipeDetails() {
 
     coisasFilter();
   }, [recipe]);
+
+  useEffect(() => {
+    setIsMeal(pathname.includes('/meals'));
+    const recipesIn = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if ((isMeal && recipesIn !== null && recipesIn?.meals?.[id])
+    || (!isMeal && recipesIn !== null && recipesIn?.drinks?.[id])) {
+      setIsInProgess(true);
+    }
+  }, [id, isMeal, pathname]);
 
   return (
     <div>
@@ -127,7 +137,7 @@ function RecipeDetails() {
                     bottom: 0,
                   } }
                 >
-                  Start Recipe
+                  {isInProgress ? 'Continue Recipe' : 'Start Recipe' }
                 </button>
               </Link>
             </div>
@@ -185,7 +195,7 @@ function RecipeDetails() {
                        bottom: 0,
                      } }
                    >
-                     Start Recipe
+                     {isInProgress ? 'Continue Recipe' : 'Start Recipe' }
                    </button>
                  </Link>
                </div>
