@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import CarouselCard from '../components/CarouselCard';
 import AppContext from '../context/AppContext';
@@ -8,6 +8,7 @@ function RecipeDetails() {
   const { recipe, setRecipe, /* coisas, */ setCoisas, /* isCopied, setIsCopied, */ isMeal,
     setIsMeal, /* isInProgress, */ setIsInProgess,
     setRecomendation } = useContext(AppContext);
+  const [isFavorite, setIsFavorite] = useState(false);
   const { pathname } = useLocation();
   const { id } = useParams();
 
@@ -90,12 +91,15 @@ function RecipeDetails() {
       if (fave?.find((item) => item.id === id)) {
         const newFave = fave.filter((item) => item.id !== id);
         localStorage.setItem('favoriteRecipes', JSON.stringify(newFave));
+        setIsFavorite(false);
       } else {
         const newFave = [...fave, favoriteMeal];
         localStorage.setItem('favoriteRecipes', JSON.stringify(newFave));
+        setIsFavorite(true);
       }
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify([favoriteMeal]));
+      setIsFavorite(true);
     }
   };
 
@@ -114,12 +118,15 @@ function RecipeDetails() {
       if (fave?.find((item) => item.id === id)) {
         const newFave = fave.filter((item) => item.id !== id);
         localStorage.setItem('favoriteRecipes', JSON.stringify(newFave));
+        setIsFavorite(false);
       } else {
         const newFave = [...fave, favoriteDrink];
         localStorage.setItem('favoriteRecipes', JSON.stringify(newFave));
+        setIsFavorite(true);
       }
     } else {
       localStorage.setItem('favoriteRecipes', JSON.stringify([favoriteDrink]));
+      setIsFavorite(true);
     }
   };
 
@@ -131,10 +138,20 @@ function RecipeDetails() {
     }
   };
 
+  useEffect(() => {
+    const fave = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (fave !== null && fave?.find((item) => item.id === id)) {
+      setIsFavorite(true);
+    }
+  }, [id]);
+
   return (
     <div>
       <CarouselCard />
-      <RecipeDetailsCard handleClickFavorite={ handleClickFavorite } />
+      <RecipeDetailsCard
+        handleClickFavorite={ handleClickFavorite }
+        isFavorite={ isFavorite }
+      />
     </div>
   );
 }
