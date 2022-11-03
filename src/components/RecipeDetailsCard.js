@@ -50,7 +50,17 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite }) {
                     type="button"
                     data-testid="share-btn"
                   >
-                    {isCopied ? 'Link copied!' : icon}
+                    {
+                      (isCopied) ? (
+                        'Link copied!'
+                      ) : (
+                        <img
+                          src={ icon }
+                          alt=""
+                          data-testid="favorite-btn"
+                        />
+                      )
+                    }
                   </button>
                   <ul>
                     {coisas?.map((iten, index) => (
@@ -125,7 +135,17 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite }) {
                        type="button"
                        data-testid="share-btn"
                      >
-                       {isCopied ? 'Link copied!' : icon}
+                       {
+                         (isCopied) ? (
+                           'Link copied!'
+                         ) : (
+                           <img
+                             src={ icon }
+                             alt=""
+                             data-testid="favorite-btn"
+                           />
+                         )
+                       }
                      </button>
                      <ul>
                        {coisas?.map((iten, index) => (
