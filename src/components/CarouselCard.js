@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Carousel } from 'react-bootstrap';
+import Carousel from 'react-bootstrap/Carousel';
 import AppContext from '../context/AppContext';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function CarouselCard() {
   const { recomendation } = useContext(AppContext);
@@ -17,65 +17,31 @@ function CarouselCard() {
   return (
     <Carousel>
       {
-        recomendation?.map((reco, index) => (
-          <Carousel.Item
-            key={ index }
-            data-testid={ `${index}-recommendation-card` }
-            className="carousel"
-          >
-            <h3 data-testid={ `${index}-recommendation-title` }>
-              {isMeal ? reco.strMeal : reco.strDrink}
-            </h3>
-          </Carousel.Item>
-        ))
+        recomendation?.map((reco, index) => {
+          console.log(reco, index);
+          return (
+            <Carousel.Item
+              key={ index }
+              data-testid={ `${index}-recommendation-card` }
+              className="carousel"
+            >
+              <img
+                src={ isMeal ? reco.strDrinkThumb : reco.strMealThumb }
+                alt=""
+                className="d-block w-100"
+                style={ { height: '200px' } }
+              />
+              <Carousel.Caption>
+                <h3 data-testid={ `${index}-recommendation-title` }>
+                  {isMeal ? reco.strDrink : reco.strMeal}
+                </h3>
+              </Carousel.Caption>
+            </Carousel.Item>
+          );
+        })
       }
     </Carousel>
   );
 }
 
 export default CarouselCard;
-
-//   <div id="demo" className="carousel slide" data-bs-ride="carousel">
-//   <div className="carousel-inner">
-//     {
-//       recomendation.map((reco, index) => (
-//         <div
-//           className={ index === 0 ? 'carousel-item active' : 'carousel-item' }
-//           key={ index }
-//           data-testid={ `${index}-recommendation-card` }
-//           style={ { height: '300px', width: '300px' } }
-//         >
-//           <img
-//             src={ isMeal ? recomendation[0].strMealThumb
-//               : recomendation[0].strDrinkThumb }
-//             alt=""
-//             className="d-block w-100"
-//           />
-//           <div className="carousel-caption">
-//             <h3 data-testid={ `${index}-recommendation-title` }>
-//               {isMeal ? reco.strMeal : reco.strDrink}
-//             </h3>
-//           </div>
-//         </div>
-//       ))
-//     }
-
-//   </div>
-
-//   <button
-//     className="carousel-control-prev"
-//     type="button"
-//     data-bs-target="#demo"
-//     data-bs-slide="prev"
-//   >
-//     <span className="carousel-control-prev-icon" />
-//   </button>
-//   <button
-//     className="carousel-control-next"
-//     type="button"
-//     data-bs-target="#demo"
-//     data-bs-slide="next"
-//   >
-//     <span className="carousel-control-next-icon" />
-//   </button>
-// </div>
