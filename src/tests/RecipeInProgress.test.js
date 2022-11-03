@@ -16,6 +16,7 @@ const mealsEndPoint = '/meals/52771/in-progress';
 const drinksEndPoint = '/drinks/178319/in-progress';
 
 jest.mock('clipboard-copy');
+
 describe('RecipeInProgress tests', () => {
   const { location } = window;
   beforeAll(() => {
@@ -29,6 +30,7 @@ describe('RecipeInProgress tests', () => {
   afterAll(() => {
     window.location = location;
   });
+
   test('Composição da página em meals/52771/in-progress', async () => {
     global.fetch = jest.fn(fetch);
 
