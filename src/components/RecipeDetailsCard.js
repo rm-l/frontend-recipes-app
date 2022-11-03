@@ -3,10 +3,12 @@ import { useLocation, useParams, Link } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import copy from 'clipboard-copy';
 import PropTypes from 'prop-types';
-import shareIcon from '../images/shareIcon.svg';
+import icon from '../images/shareIcon.svg';
+import whiteHeartIcon from '../images/whiteHeartIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 import AppContext from '../context/AppContext';
 
-function RecipeDetailsCard({ handleClickFavorite }) {
+function RecipeDetailsCard({ handleClickFavorite, isFavorite }) {
   const { recipe, coisas, isCopied, setIsCopied, isInProgress, /* setIsMeal,
     setIsInProgess, setRecomendation, isMeal, setCoisas,
     setRecipe */ } = useContext(AppContext);
@@ -32,10 +34,13 @@ function RecipeDetailsCard({ handleClickFavorite }) {
                   />
                   <button
                     type="button"
-                    data-testid="favorite-btn"
                     onClick={ handleClickFavorite }
                   >
-                    Favorite
+                    <img
+                      src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+                      alt=""
+                      data-testid="favorite-btn"
+                    />
                   </button>
                   <button
                     onClick={ () => {
@@ -45,7 +50,7 @@ function RecipeDetailsCard({ handleClickFavorite }) {
                     type="button"
                     data-testid="share-btn"
                   >
-                    {isCopied ? 'Link copied!' : shareIcon}
+                    {isCopied ? 'Link copied!' : icon}
                   </button>
                   <ul>
                     {coisas?.map((iten, index) => (
@@ -104,10 +109,13 @@ function RecipeDetailsCard({ handleClickFavorite }) {
                      />
                      <button
                        type="button"
-                       data-testid="favorite-btn"
                        onClick={ handleClickFavorite }
                      >
-                       Favorite
+                       <img
+                         src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+                         alt=""
+                         data-testid="favorite-btn"
+                       />
                      </button>
                      <button
                        onClick={ () => {
@@ -117,7 +125,7 @@ function RecipeDetailsCard({ handleClickFavorite }) {
                        type="button"
                        data-testid="share-btn"
                      >
-                       {isCopied ? 'Link copied!' : shareIcon}
+                       {isCopied ? 'Link copied!' : icon}
                      </button>
                      <ul>
                        {coisas?.map((iten, index) => (
@@ -158,6 +166,7 @@ function RecipeDetailsCard({ handleClickFavorite }) {
 
 RecipeDetailsCard.propTypes = {
   handleClickFavorite: PropTypes.func.isRequired,
+  isFavorite: PropTypes.bool.isRequired,
 };
 
 export default RecipeDetailsCard;
