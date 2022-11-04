@@ -168,7 +168,7 @@ function RecipeInProgress() {
   const handleClickFinish = () => {
     const oldDoneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
     const momentDate = new Date();
-    const tags = recipeInProgress[0].strTags?.split(',');
+    const tags = recipeInProgress[0]?.strTags?.split(',');
     const isTag = Boolean(tags);
     const newDoneRecipe = {
       id,
