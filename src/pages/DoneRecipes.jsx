@@ -4,6 +4,7 @@ import shareIcon from '../images/shareIcon.svg';
 
 export default function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
+  const [showedRecipes, setShowedRecipes] = useState([]);
 
   useEffect(() => {
     if (Object.prototype.hasOwnProperty
@@ -12,8 +13,25 @@ export default function DoneRecipes() {
         localStorage.getItem('doneRecipes'),
       );
       setDoneRecipes(recipes);
+      setShowedRecipes(recipes);
     }
   }, []);
+
+  const handleClickAll = () => {
+    setShowedRecipes(doneRecipes);
+  };
+
+  const handleClickOnlyMeals = () => {
+    const filteredRecipes = doneRecipes
+      .filter((recipe) => recipe.type === 'meal');
+    setShowedRecipes(filteredRecipes);
+  };
+
+  const handleClickOnlyDrinks = () => {
+    const filteredRecipes = doneRecipes
+      .filter((recipe) => recipe.type === 'drink');
+    setShowedRecipes(filteredRecipes);
+  };
 
   return (
     <div>
@@ -22,6 +40,7 @@ export default function DoneRecipes() {
       <button
         type="button"
         data-testid="filter-by-all-btn"
+        onClick={ handleClickAll }
       >
         All
       </button>
@@ -29,6 +48,7 @@ export default function DoneRecipes() {
       <button
         type="button"
         data-testid="filter-by-meal-btn"
+        onClick={ handleClickOnlyMeals }
       >
         Meals
       </button>
@@ -36,11 +56,12 @@ export default function DoneRecipes() {
       <button
         type="button"
         data-testid="filter-by-drink-btn"
+        onClick={ handleClickOnlyDrinks }
       >
         Drinks
       </button>
 
-      {doneRecipes.map((recipe, index) => (
+      {showedRecipes.map((recipe, index) => (
         <>
           <img
             data-testid={ `${index}-horizontal-image` }
