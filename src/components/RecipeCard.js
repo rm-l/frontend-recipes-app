@@ -5,7 +5,6 @@ import AppContext from '../context/AppContext';
 
 function RecipeCard({ meal, indexM, indexD, drink }) {
   const { path } = useContext(AppContext);
-
   return (
     <div>
       {

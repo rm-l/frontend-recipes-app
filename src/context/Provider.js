@@ -9,7 +9,7 @@ function Provider({ children }) {
   const [path, setPath] = useState('');
   const [pageName, setPageName] = useState('');
   const [isPerfilIcon, setIsPerfilIcon] = useState(true);
-  const [isSearchIcon, setIsSearchIcon] = useState(true);
+  // const [isSearchIcon, setIsSearchIcon] = useState(true);
   const [isSearchPressed, setIsSearchPressed] = useState(false);
   const [radioSearch, setRadioSearch] = useState('');
   const [inputSearch, setInputSearch] = useState('');
@@ -49,8 +49,8 @@ function Provider({ children }) {
     setPageName,
     isPerfilIcon,
     setIsPerfilIcon,
-    isSearchIcon,
-    setIsSearchIcon,
+    // isSearchIcon,
+    // setIsSearchIcon,
     isSearchPressed,
     setIsSearchPressed,
     radioSearch,
@@ -85,11 +85,10 @@ function Provider({ children }) {
     setIngredientsUsedList,
     isIngredientUsedList,
     setIsIngredientUsedList,
-  }), [email, password, isDisabled, path, pageName, isPerfilIcon, isSearchIcon,
-    isSearchPressed, radioSearch, inputSearch, mealsList, drinksList, isMultipleMeals,
-    isMultipleDrinks, mealCategories, drinkCategories, isFiltered, recipeInProgress,
-    isMealInProgress, isDrinkInProgress, ingredients, measures, ingredientsUsedList,
-    isIngredientUsedList]);
+  }), [email, password, isDisabled, path, pageName, isPerfilIcon, isSearchPressed,
+    radioSearch, inputSearch, mealsList, drinksList, isMultipleMeals, isMultipleDrinks,
+    mealCategories, drinkCategories, isFiltered, recipeInProgress, isMealInProgress,
+    isDrinkInProgress, ingredients, measures, ingredientsUsedList, isIngredientUsedList]);
 
   const secondContext = useMemo(() => ({
     favorites,

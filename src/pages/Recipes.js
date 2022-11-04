@@ -119,7 +119,7 @@ function Recipes() {
       </div>
       <div>
         {
-          (isMultipleMeals) && (
+          (isMultipleMeals && path === '/meals') && (
             mealsList?.map((meal, indexM) => (
               <div key={ meal.strMeal }>
                 <RecipeCard
@@ -130,7 +130,7 @@ function Recipes() {
             )))
         }
         {
-          (isMultipleDrinks) && (
+          (isMultipleDrinks && (path === '/drinks')) && (
             drinksList?.map((drink, indexD) => (
               <div key={ drink.strDrink }>
                 <RecipeCard
