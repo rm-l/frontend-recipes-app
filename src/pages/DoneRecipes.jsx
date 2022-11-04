@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import copy from 'clipboard-copy';
 import Header from '../components/Header';
 import shareIcon from '../images/shareIcon.svg';
 
 export default function DoneRecipes() {
   const [doneRecipes, setDoneRecipes] = useState([]);
   const [showedRecipes, setShowedRecipes] = useState([]);
+  const [isCopied, setIsCopied] = useState(false);
 
   useEffect(() => {
     if (Object.prototype.hasOwnProperty
@@ -31,6 +34,11 @@ export default function DoneRecipes() {
     const filteredRecipes = doneRecipes
       .filter((recipe) => recipe.type === 'drink');
     setShowedRecipes(filteredRecipes);
+  };
+
+  const handleClickShare = (type, id) => {
+    setIsCopied(true);
+    copy(`http://localhost:3000/${type}s/${id}`);
   };
 
   return (
@@ -62,12 +70,15 @@ export default function DoneRecipes() {
       </button>
 
       {showedRecipes.map((recipe, index) => (
-        <>
-          <img
-            data-testid={ `${index}-horizontal-image` }
-            src={ recipe.image }
-            alt={ recipe.name }
-          />
+        <div key={ index }>
+          <Link to={ `/${recipe.type}s/${recipe.id}` }>
+            <img
+              style={ { height: '200px', width: '200px' } }
+              data-testid={ `${index}-horizontal-image` }
+              src={ recipe.image }
+              alt={ recipe.name }
+            />
+          </Link>
 
           { recipe.type === 'meal' ? (
             <div>
@@ -96,11 +107,13 @@ export default function DoneRecipes() {
             </p>
           ) }
 
-          <p
-            data-testid={ `${index}-horizontal-name` }
-          >
-            {recipe.name}
-          </p>
+          <Link to={ `/${recipe.type}s/${recipe.id}` }>
+            <p
+              data-testid={ `${index}-horizontal-name` }
+            >
+              {recipe.name}
+            </p>
+          </Link>
 
           <p
             data-testid={ `${index}-horizontal-done-date` }
@@ -111,11 +124,18 @@ export default function DoneRecipes() {
           <button
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
+            onClick={ () => handleClickShare(recipe.type, recipe.id) }
             src={ shareIcon }
           >
-            <img src={ shareIcon } alt="share" />
+            {
+              (isCopied) ? (
+                'Link copied!'
+              ) : (
+                <img src={ shareIcon } alt="share" />
+              )
+            }
           </button>
-        </>
+        </div>
       ))}
     </div>
   );

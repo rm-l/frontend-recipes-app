@@ -9,6 +9,7 @@ function RecipeDetails() {
     setIsMeal, /* isInProgress, */ setIsInProgess,
     setRecomendation } = useContext(AppContext);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [address, setAddress] = useState('');
   const { pathname } = useLocation();
   const { id } = useParams();
 
@@ -22,6 +23,8 @@ function RecipeDetails() {
         const response = await fetch((`${MEALS_ENDPOINT}${id}`));
         const result = await response.json();
         setRecipe(result.meals);
+        const link = (result.meals[0].strYoutube.split('='))[1];
+        setAddress(`https://www.youtube.com/embed/${link}`);
         const a = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
         const b = await a.json();
         const c = b.drinks.filter((reco, index) => index < SIX);
@@ -31,6 +34,8 @@ function RecipeDetails() {
         const response = await fetch((`${DRINK_ENDPOINT}${id}`));
         const result = await response.json();
         setRecipe(result.drinks);
+        const link = (result.drinks[0].strYoutube.split('='))[1];
+        setAddress(`https://www.youtube.com/embed/${link}`);
         const c = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
         const d = await c.json();
         const e = d.meals.filter((reco, index) => index < SIX);
@@ -151,6 +156,7 @@ function RecipeDetails() {
       <RecipeDetailsCard
         handleClickFavorite={ handleClickFavorite }
         isFavorite={ isFavorite }
+        address={ address }
       />
     </div>
   );
