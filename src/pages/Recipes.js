@@ -120,7 +120,7 @@ function Recipes() {
       <div>
         {
           (isMultipleMeals) && (
-            mealsList.map((meal, indexM) => (
+            mealsList?.map((meal, indexM) => (
               <div key={ meal.strMeal }>
                 <RecipeCard
                   meal={ meal }
@@ -131,7 +131,7 @@ function Recipes() {
         }
         {
           (isMultipleDrinks) && (
-            drinksList.map((drink, indexD) => (
+            drinksList?.map((drink, indexD) => (
               <div key={ drink.strDrink }>
                 <RecipeCard
                   drink={ drink }

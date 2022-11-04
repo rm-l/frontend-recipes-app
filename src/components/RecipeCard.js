@@ -17,6 +17,7 @@ function RecipeCard({ meal, indexM, indexD, drink }) {
                 src={ meal.strMealThumb }
                 alt={ meal.strMeal }
                 data-testid={ `${indexM}-card-img` }
+                style={ { height: '200px', width: '200px' } }
               />
             </div>
           </Link>
@@ -32,6 +33,7 @@ function RecipeCard({ meal, indexM, indexD, drink }) {
                    src={ drink.strDrinkThumb }
                    alt={ drink.strDrink }
                    data-testid={ `${indexD}-card-img` }
+                   style={ { height: '200px', width: '200px' } }
                  />
                </div>
              </Link>
@@ -43,10 +45,12 @@ function RecipeCard({ meal, indexM, indexD, drink }) {
 
 RecipeCard.propTypes = {
   meal: PropTypes.shape({
+    idMeal: PropTypes.string,
     srtMeal: PropTypes.string,
     strMealThumb: PropTypes.string,
   }),
   drink: PropTypes.shape({
+    idDrink: PropTypes.string,
     srtDrink: PropTypes.string,
     strDrinkThumb: PropTypes.string,
   }),
