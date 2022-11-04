@@ -1,6 +1,5 @@
 import React, { /* useEffect, useState, */ useContext } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
-import ReactPlayer from 'react-player';
 import copy from 'clipboard-copy';
 import PropTypes from 'prop-types';
 import icon from '../images/shareIcon.svg';
@@ -80,8 +79,15 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite }) {
                   <div
                     data-testid="video"
                   >
-                    <ReactPlayer
-                      url={ meal.strYoutube }
+                    <iframe
+                      title="Youtube"
+                      width="350"
+                      height="220"
+                      src={ `https://www.youtube.com/embed/${(meal.strYoutube.split('='))[1]}` }
+                      frameBorder="0"
+                      allow="accelerometerautoplay;
+        clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
                     />
                   </div>
                 </div>))}
@@ -161,7 +167,16 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite }) {
                        {drink.strInstructions}
                      </p>
                      <div data-testid="video">
-                       <ReactPlayer url={ drink.strYoutube } />
+                       <iframe
+                         title="Youtube"
+                         width="350"
+                         height="220"
+                         src={ `https://www.youtube.com/embed/${(drink.strYoutube.split('='))[1]}` }
+                         frameBorder="0"
+                         allow="accelerometerautoplay;
+        clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                         allowFullScreen
+                       />
                      </div>
                    </div>))}
                  <Link to={ `/drinks/${id}/in-progress` }>
