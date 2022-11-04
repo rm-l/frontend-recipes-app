@@ -7,7 +7,7 @@ import whiteHeartIcon from '../images/whiteHeartIcon.svg';
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import AppContext from '../context/AppContext';
 
-function RecipeDetailsCard({ handleClickFavorite, isFavorite }) {
+function RecipeDetailsCard({ handleClickFavorite, isFavorite, address }) {
   const { recipe, coisas, isCopied, setIsCopied, isInProgress, /* setIsMeal,
     setIsInProgess, setRecomendation, isMeal, setCoisas,
     setRecipe */ } = useContext(AppContext);
@@ -73,7 +73,7 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite }) {
                       title="Youtube"
                       width="350"
                       height="220"
-                      src={ `https://www.youtube.com/embed/${(meal.strYoutube.split('='))[1]}` }
+                      src={ address }
                       frameBorder="0"
                       allow="accelerometerautoplay;
         clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -151,7 +151,7 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite }) {
                          title="Youtube"
                          width="350"
                          height="220"
-                         src={ `https://www.youtube.com/embed/${(drink.strYoutube.split('='))[1]}` }
+                         src={ address }
                          frameBorder="0"
                          allow="accelerometerautoplay;
         clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -182,6 +182,7 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite }) {
 RecipeDetailsCard.propTypes = {
   handleClickFavorite: PropTypes.func.isRequired,
   isFavorite: PropTypes.bool.isRequired,
+  address: PropTypes.string.isRequired,
 };
 
 export default RecipeDetailsCard;
