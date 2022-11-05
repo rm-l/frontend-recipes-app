@@ -16,7 +16,7 @@ const drinksEndPoint = '/drinks/178319';
 
 jest.mock('clipboard-copy');
 
-describe('Testes RecipeDetailsPage', () => {
+describe('Testes RecipeDetails page meal', () => {
   const { location } = window;
   beforeAll(() => {
     delete window.location;
@@ -89,6 +89,21 @@ describe('Testes RecipeDetailsPage', () => {
 
     act(() => history.push('/meals/52771'));
   });
+});
+
+describe('Testes RecipeDetails page drinks', () => {
+  const { location } = window;
+  beforeAll(() => {
+    delete window.location;
+    window.location = { reload: jest.fn() };
+  });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  afterAll(() => {
+    window.location = location;
+  });
   test('Composição tela de rota /drinks/178319', async () => {
     global.fetch = jest.fn(fetch);
 
@@ -105,7 +120,7 @@ describe('Testes RecipeDetailsPage', () => {
     const instructions = screen.getByTestId('instructions');
     const details = screen.getByTestId('recipe-details');
     const ingreAndMeasure = screen.getByTestId('0-ingredient-name-and-measure');
-    const video = screen.getByTestId('video');
+    // const video = screen.getByTestId('video');
 
     expect(shareBtn).toBeInTheDocument();
     expect(favoriteBtn).toBeInTheDocument();
@@ -116,7 +131,7 @@ describe('Testes RecipeDetailsPage', () => {
     expect(instructions).toBeInTheDocument();
     expect(details).toBeInTheDocument();
     expect(ingreAndMeasure).toBeInTheDocument();
-    expect(video).toBeInTheDocument();
+    // expect(video).toBeInTheDocument();
   });
   test('Funções dos botões em rota /drinks/178319', async () => {
     global.fetch = jest.fn(fetch);
@@ -149,5 +164,11 @@ describe('Testes RecipeDetailsPage', () => {
     userEvent.click(ingredient0);
 
     act(() => history.push('/drinks/178319'));
+
+    act(() => history.push(mealsEndPoint));
+
+    const newFavoriteBtn = screen.getByTestId(favorite);
+
+    userEvent.click(newFavoriteBtn);
   });
 });

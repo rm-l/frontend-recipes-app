@@ -37,11 +37,11 @@ function RecipeDetails() {
         const response = await fetch((`${DRINK_ENDPOINT}${id}`));
         const result = await response.json();
         setRecipe(result.drinks);
-        const prelink = result?.drinks[0].strYoutube;
-        if (prelink) {
-          const link = (prelink.split('='))[1];
-          setAddress(`https://www.youtube.com/embed/${link}`);
-        }
+        // const prelink = result?.drinks[0].strYoutube;
+        // if (prelink) {
+        //   const link = (prelink.split('='))[1];
+        //   setAddress(`https://www.youtube.com/embed/${link}`);
+        // }
         const c = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
         const d = await c.json();
         const e = d.meals.filter((reco, index) => index < SIX);
