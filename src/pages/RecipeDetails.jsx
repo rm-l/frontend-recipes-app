@@ -30,7 +30,7 @@ function RecipeDetails() {
         }
         const a = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
         const b = await a.json();
-        const c = b.drinks.filter((reco, index) => index < SIX);
+        const c = b?.drinks?.filter((reco, index) => index < SIX);
         setRecomendation(c);
       }
       if (pathname === `/drinks/${id}`) {
@@ -44,7 +44,7 @@ function RecipeDetails() {
         // }
         const c = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
         const d = await c.json();
-        const e = d.meals.filter((reco, index) => index < SIX);
+        const e = d?.meals?.filter((reco, index) => index < SIX);
         setRecomendation(e);
       }
     };

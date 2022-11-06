@@ -16,13 +16,13 @@ function Recipes() {
         const endPoint = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
         const response = await fetch(endPoint);
         const { meals } = await response.json();
-        const filteredMealCategories = meals.filter((item, index) => index < FIVE);
+        const filteredMealCategories = meals?.filter((item, index) => index < FIVE);
         setMealCategories(filteredMealCategories);
       } else if (path === '/drinks') {
         const endPoint = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
         const response = await fetch(endPoint);
         const { drinks } = await response.json();
-        const filteredDrinkCategories = drinks.filter((item, index) => index < FIVE);
+        const filteredDrinkCategories = drinks?.filter((item, index) => index < FIVE);
         setDrinkCategories(filteredDrinkCategories);
       }
     };
@@ -90,7 +90,7 @@ function Recipes() {
       <div>
         {
           (path === '/meals') && (
-            mealCategories.map((mCat, index) => (
+            mealCategories?.map((mCat, index) => (
               <button
                 type="button"
                 key={ index }
@@ -104,7 +104,7 @@ function Recipes() {
         }
         {
           (path === '/drinks') && (
-            drinkCategories.map((dCat, index) => (
+            drinkCategories?.map((dCat, index) => (
               <button
                 type="button"
                 key={ index }

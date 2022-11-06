@@ -18,7 +18,7 @@ function Meals() {
       const endPoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
       const response = await fetch(endPoint);
       const { meals } = await response.json();
-      const filteredMeals = meals.filter((item, index) => index < TWELVE);
+      const filteredMeals = meals?.filter((item, index) => index < TWELVE);
       setMealsList(filteredMeals);
       setIsMultipleMeals(true);
     };
