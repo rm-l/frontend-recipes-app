@@ -26,7 +26,7 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite, address }) {
                     {meal.strCategory}
                   </span>
                   <img
-                    style={ { width: '100px', height: '100px' } }
+                    style={ { height: '200px', width: '200px' } }
                     src={ meal.strMealThumb }
                     alt={ meal.strMeal }
                     data-testid="recipe-photo"
@@ -56,7 +56,6 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite, address }) {
                         <img
                           src={ icon }
                           alt=""
-                          data-testid="favorite-btn"
                         />
                       )
                     }
@@ -118,7 +117,7 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite, address }) {
                        {drink.strAlcoholic}
                      </span>
                      <img
-                       style={ { width: '100px', height: '100px' } }
+                       style={ { height: '200px', width: '200px' } }
                        src={ drink.strDrinkThumb }
                        alt={ drink.strDrink }
                        data-testid="recipe-photo"
@@ -148,7 +147,6 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite, address }) {
                            <img
                              src={ icon }
                              alt=""
-                             data-testid="favorite-btn"
                            />
                          )
                        }
@@ -166,7 +164,7 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite, address }) {
                      <p data-testid="instructions">
                        {drink.strInstructions}
                      </p>
-                     <div data-testid="video">
+                     {/* <div data-testid="video">
                        <iframe
                          title="Youtube"
                          width="350"
@@ -177,7 +175,7 @@ function RecipeDetailsCard({ handleClickFavorite, isFavorite, address }) {
         clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                          allowFullScreen
                        />
-                     </div>
+                     </div> */}
                    </div>))}
                  <Link to={ `/drinks/${id}/in-progress` }>
                    <button

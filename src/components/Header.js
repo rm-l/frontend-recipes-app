@@ -7,7 +7,7 @@ import SearchBar from './SearchBar';
 
 function Header() {
   const { path, setPath, pageName, setPageName, isPerfilIcon, isSearchPressed,
-    setIsPerfilIcon, isSearchIcon, setIsSearchIcon, setIsSearchPressed,
+    setIsPerfilIcon, setIsSearchPressed,
   } = useContext(AppContext);
 
   const { pathname } = useLocation();
@@ -19,29 +19,23 @@ function Header() {
     if (path === '/meals') {
       setPageName('Meals');
       setIsPerfilIcon(true);
-      setIsSearchIcon(true);
     } else if (path === '/drinks') {
       setPageName('Drinks');
       setIsPerfilIcon(true);
-      setIsSearchIcon(true);
     } else if (path === '/profile') {
       setPageName('Profile');
       setIsPerfilIcon(true);
-      setIsSearchIcon(false);
     } else if (path === '/done-recipes') {
       setPageName('Done Recipes');
       setIsPerfilIcon(true);
-      setIsSearchIcon(false);
     } else if (path === '/favorite-recipes') {
       setPageName('Favorite Recipes');
       setIsPerfilIcon(true);
-      setIsSearchIcon(false);
     } else {
       setPageName('');
       setIsPerfilIcon(false);
-      setIsSearchIcon(false);
     }
-  }, [path, pathname, setIsPerfilIcon, setIsSearchIcon, setPageName, setPath]);
+  }, [path, pathname, setIsPerfilIcon, setPageName, setPath]);
 
   const handleClickSearch = () => {
     setIsSearchPressed(!isSearchPressed);
@@ -62,7 +56,7 @@ function Header() {
         )
       }
       {
-        (isSearchIcon) && (
+        (path === '/meals' || path === '/drinks') && (
           <>
             {
               (isSearchPressed) && (

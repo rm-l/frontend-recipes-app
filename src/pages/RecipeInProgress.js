@@ -49,8 +49,8 @@ function RecipeInProgress() {
   }, [recipeInProgress]);
 
   useEffect(() => {
-    const isMeal = pathname.includes('meals');
-    const isDrink = pathname.includes('drinks');
+    const isMeal = pathname.includes('/meals');
+    const isDrink = pathname.includes('/drinks');
     setIsMealInProgress(isMeal);
     setIsDrinkInProgress(isDrink);
 
@@ -98,7 +98,7 @@ function RecipeInProgress() {
       newList = ingredientsUsedList.filter((item) => item !== value);
       labelActual.classList.remove('checkedClass');
       isIngredientUsedList[index] = false;
-    } else if (!ingredientsUsedList.includes(value)) {
+    } else {
       newList = [...ingredientsUsedList, value];
       labelActual.classList.add('checkedClass');
       isIngredientUsedList[index] = true;
@@ -121,7 +121,7 @@ function RecipeInProgress() {
       newList = ingredientsUsedList.filter((item) => item !== value);
       labelActual.classList.remove('checkedClass');
       isIngredientUsedList[index] = false;
-    } else if (!ingredientsUsedList.includes(value)) {
+    } else {
       newList = [...ingredientsUsedList, value];
       labelActual.classList.add('checkedClass');
       isIngredientUsedList[index] = true;

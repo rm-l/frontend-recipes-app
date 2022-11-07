@@ -125,7 +125,7 @@ function RecipeInProgressCard({ handleChangeCheck, handleClickFinish }) {
               </Link>
               <div>
                 <img
-                  style={ { width: '100px', height: '100px' } }
+                  style={ { width: '200px', height: '200px' } }
                   src={ item.strMealThumb }
                   alt={ item.strMeal }
                   data-testid="recipe-photo"
@@ -201,7 +201,7 @@ function RecipeInProgressCard({ handleChangeCheck, handleClickFinish }) {
               </Link>
               <div>
                 <img
-                  style={ { width: '200px', height: '210px' } }
+                  style={ { width: '200px', height: '200px' } }
                   src={ item.strDrinkThumb }
                   alt={ item.strDrink }
                   data-testid="recipe-photo"

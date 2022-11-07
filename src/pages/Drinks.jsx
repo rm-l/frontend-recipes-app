@@ -18,7 +18,7 @@ function Drinks() {
       const endPoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       const response = await fetch(endPoint);
       const { drinks } = await response.json();
-      const filteredDrinks = drinks.filter((item, index) => index < TWELVE);
+      const filteredDrinks = drinks?.filter((item, index) => index < TWELVE);
       setDrinksList(filteredDrinks);
       setIsMultipleDrinks(true);
     };

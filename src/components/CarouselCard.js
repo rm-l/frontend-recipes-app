@@ -17,28 +17,25 @@ function CarouselCard() {
   return (
     <Carousel>
       {
-        recomendation?.map((reco, index) => {
-          console.log(reco, index);
-          return (
-            <Carousel.Item
-              key={ index }
-              data-testid={ `${index}-recommendation-card` }
-              className="carousel"
-            >
-              <img
-                src={ isMeal ? reco.strDrinkThumb : reco.strMealThumb }
-                alt=""
-                className="d-block w-100"
-                style={ { height: '200px' } }
-              />
-              <Carousel.Caption>
-                <h3 data-testid={ `${index}-recommendation-title` }>
-                  {isMeal ? reco.strDrink : reco.strMeal}
-                </h3>
-              </Carousel.Caption>
-            </Carousel.Item>
-          );
-        })
+        recomendation?.map((reco, index) => (
+          <Carousel.Item
+            key={ index }
+            data-testid={ `${index}-recommendation-card` }
+            className="carousel"
+          >
+            <img
+              src={ isMeal ? reco.strDrinkThumb : reco.strMealThumb }
+              alt=""
+              className="d-block w-100"
+              style={ { height: '200px' } }
+            />
+            <Carousel.Caption>
+              <h3 data-testid={ `${index}-recommendation-title` }>
+                {isMeal ? reco.strDrink : reco.strMeal}
+              </h3>
+            </Carousel.Caption>
+          </Carousel.Item>
+        ))
       }
     </Carousel>
   );

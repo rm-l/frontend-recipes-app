@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import AppContext from '../context/AppContext';
+// teste
 
 function Login() {
   const { email, setEmail, password, setPassword,
